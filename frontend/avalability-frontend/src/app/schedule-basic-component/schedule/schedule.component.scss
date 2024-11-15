@@ -1,0 +1,101 @@
+//pop-up event----------------------------------------------
+
+.custom-event-editor {
+  border-collapse: collapse; /* Elimina los bordes dobles entre celdas */
+  width: 100%; /* Asegura que la tabla ocupe el 100% del contenedor */
+  border-radius: 15px; /* Redondear las esquinas de la tabla */
+  overflow: hidden; /* Evitar que el contenido sobrepase el borde redondeado */
+}
+
+.custom-event-editor thead {
+  background-color: #e8f5e9; /* Color verde suave para el encabezado */
+  color: #2e7d32; /* Color del texto en el encabezado */
+}
+
+.custom-event-editor th,
+.custom-event-editor td {
+  padding: 10px; /* Espaciado interno */
+  text-align: left; /* Alinea el texto a la izquierda */
+  padding-right: 15px;
+}
+
+.e-textlabel {
+  padding: 10px; /* Espaciado interno para las etiquetas */
+  font-weight: bold; /* Aumentar el grosor de las etiquetas */
+}
+
+.e-field {
+  border: 1px solid #ccc; /* Borde gris claro para los campos */
+  border-radius: 5px; /* Redondear las esquinas de los campos */
+  padding: 5px; /* Espaciado interno para los campos */
+  width: 100%; /* Asegura que los campos ocupen el 100% del espacio */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+textarea.e-field.e-input {
+  resize: none; /* Desactiva la opción de redimensionar el textarea */
+}
+
+//COLOREAR DE VERDE EL BOTON SAVE (tambien me modifica el delete del quickdialog)----------------------
+/*.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary { //boton SAVE verde
+  &, &:hover {
+    color: #1d8f20;
+  }
+}
+
+
+.e-quick-dialog-delete {
+  color: #333; !* Color de texto por defecto *!
+  background-color: transparent; !* Fondo transparente o color por defecto *!
+}
+
+.e-quick-dialog-delete:hover {
+  color: #d32f2f; !* Color rojo en hover si deseas marcar el DELETE como algo más peligroso *!
+}
+
+.e-btn.e-flat.e-primary, .e-btn.e-flat.e-primary:hover{
+  color: #d32f2f;
+}*/
+
+// quick-dialog popup----------------------------------------------
+.e-dialog.e-popup {
+  width: 400px;
+}
+
+/* Estilo para la cabecera del popup */
+.e-quick-dialog .e-dlg-header {
+  background-color: rgba(255, 0, 0, 0.4); /* Verde suave */
+  color: #FFFF; /* Texto verde oscuro */
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #c3e6cb;
+  text-align: center;
+}
+
+/* Estilo para el cuerpo del popup */
+.e-quick-dialog .e-dlg-content {
+  padding: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Botones del popup */
+.e-quick-dialog .e-footer-content {
+  text-align: right;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.e-quick-dialog .e-footer-content .btn-cancel:hover {
+  background-color: #e2e6ea; /* Color más oscuro en hover */
+}
+
+.e-quick-dialog .e-footer-content .btn-delete:hover {
+  background-color: #c82333; /* Color más oscuro en hover */
+}
+
+/* Sombras suaves para resaltar el popup */
+.e-popup-open {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

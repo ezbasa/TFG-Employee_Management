@@ -1,0 +1,69 @@
+//@import 'src/assets/styles/theme/partials/_theme';
+
+/*.filter-field {
+  margin-right: 1em;
+}*/
+
+.cdk-column-habilitado {
+  max-width: 72px;
+}
+
+.table-section {
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+}
+
+.table-paginator-section {
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.mat-column-iconFooter {
+  flex: 0 0 160px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttons button {
+  margin: 2px;
+
+}
+
+.deleteButton {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+.row:hover .deleteButton {
+  visibility: visible;
+  opacity: 1;
+}
+
+.row:hover {
+  background-color: #d4edda; //$primary-light;
+  transition: background-color 1s;
+  transition-timing-function: ease;
+}
+
+
+//ESTILOS FILTROS-----------------------
+/* Contenedor de filtro */
+.filter-container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 15px;
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Los campos de entrada se ajustarán en tamaño */
+.filter-field {
+  flex: 1;
+  min-width: 150px;
+}
+

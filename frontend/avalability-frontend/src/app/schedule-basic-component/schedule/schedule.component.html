@@ -1,0 +1,133 @@
+<!--<app-toolbar></app-toolbar>-->
+
+<div class="flex-container">
+
+  <div class="scheduler-container">
+
+    <ejs-schedule #scheduleObj cssClass='schedule-availabilty-manager' width='100%' height='890px' [group]="group"
+                  [currentView]="currentView" [selectedDate]="selectedDate" [eventSettings]="eventSettings"
+                  (actionBegin)="onActionBegin($event)" (actionComplete)="captionActionComplete($event)"
+                  (eventRendered)="colorService.onEventRendered($event)" [workHours]="scheduleHours" [showQuickInfo]="showQuickInfo"
+                  (popupOpen)='onPopupOpen($event)' (popupClose) ="onPopupClose($event)"
+    >
+      <!--
+       (cellDoubleClick)="captionClicks($event)" (cellClick)="captionClicks($event)"
+       (popupOpen)='onPopupOpen($event)'
+       (popupClose) ='onPopupClose($event)'
+       (renderCell)="onRenderCell($event)"
+       (created)="initialview()"
+       (navigating)="mostrarevento($event)"
+
+      -->
+
+      <e-resources>
+        <e-resource field='EmployeeId' title='Employees' name='Employee' [dataSource]='employeeDataSource'
+                    [allowMultiple]='allowMultiple' textField='name' idField='anumber'>
+        </e-resource>
+      </e-resources>
+
+      <ng-template #resourceHeaderTemplate let-data>
+              <div class='template-wrap'>
+                <div class="name">{{data.resourceData.name}}</div>
+                <div class="holidays">{{data.resourceData.location}} - Holidays: {{data.resourceData.holidays}}</div>
+        </div>
+      </ng-template>
+
+      <ng-template #eventSettingsTemplate let-data>
+        <div class='template-wrap'>
+          <div class="subject">{{data.Subject}}</div>
+        </div>
+      </ng-template>
+
+      <ng-template #editorTemplate let-data>
+        <table class="custom-event-editor" width="100%" cellpadding="5">
+
+          <thead>
+          <tr *ngIf="!showLocation">
+            <td class="e-textlabel">Employee:</td>
+            <td colspan="1">
+              <strong>{{ selectedEmployee?.name || ''}}</strong> / {{ selectedEmployee?.team || 'N/A' }} / {{ selectedEmployee?.location || 'N/A' }}
+            </td>
+          </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td class="e-textlabel">Type</td>
+              <td colspan="4">
+                <ejs-dropdownlist id='Subject' class="e-field" data-name="Subject" placeholder='Choose Item'
+                                  [dataSource]="showLocation? festivo : subjectOptions" [value]="showLocation? 'FESTIVO' : data.Subject ">
+                </ejs-dropdownlist>
+              </td>
+            </tr>
+
+           <tr *ngIf="showLocation">
+
+             <td class="e-textlabel">Location</td>
+             <td colspan="4">
+               <ejs-dropdownlist id='location' class="e-field" data-name="Location" placeholder='Choose Location'
+                                 [dataSource]='locationOption' [value]="data.Location">
+               </ejs-dropdownlist>
+             </td>
+
+           </tr>
+
+            <tr>
+              <td class="e-textlabel">From</td>
+              <td colspan="4">
+                <ejs-datetimepicker id="StartTime" class="e-field" data-name="StartTime" format="dd/MM/yyyy hh:mm a"
+                                    [value]="data.StartTime">
+                </ejs-datetimepicker>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="e-textlabel">To</td>
+              <td colspan="4">
+                <ejs-datetimepicker id="EndTime" class="e-field" data-name="EndTime" format="dd/MM/yyyy hh:mm a"
+                                    [value]="data.EndTime" >
+                </ejs-datetimepicker>
+              </td>
+            </tr>
+
+             <tr>
+               <td class="e-textlabel">Description</td>
+               <td colspan="4">
+                           <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50"
+                                     [value]="data.Description || '' " style="width: 100%; height: 60px">
+                           </textarea>
+               </td>
+             </tr>
+
+           </tbody>
+         </table>
+       </ng-template>
+
+       <e-views>
+         <e-view option="TimelineDay"
+                 displayName = "Day"
+                 startHour="07:00"
+                 endHour="17:00"
+         ></e-view>
+         <e-view option="TimeLineWeek"
+                 displayName = "Week"
+                 startHour="07:00"
+                 endHour="18:00"
+                 firstDayOfWeek="1"
+
+         ></e-view>
+         <!-- [displayDate]="displayDate" -->
+          <e-view option="TimelineMonth"
+                  displayName = "Month"
+                  showWeekend="false"
+          ></e-view>
+      </e-views>
+
+    </ejs-schedule>
+
+  </div>
+
+</div>
+
+<app-toast></app-toast>

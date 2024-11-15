@@ -1,0 +1,235 @@
+
+<!--<div>
+  <app-toolbar></app-toolbar>
+</div>-->
+
+<!-- Filtro -->
+<div class="filter-container"> <!--style="display: flex; align-items: center"-->
+  <form #filter [formGroup]="filterFormGroup" class="filter-container"> <!--style="display: flex; align-items: center; gap: 15px; margin-left: 20px"-->
+
+    <!-- Campo name -->
+    <mat-form-field class="filter-field">
+      <input matInput formControlName="name" placeholder="Name" name="name">
+    </mat-form-field>
+
+    <!-- Campo anumber -->
+    <mat-form-field class="filter-field" >
+      <input matInput formControlName="anumber" placeholder="Anumber" name="anumber">
+    </mat-form-field>
+
+    <!-- Campo location -->
+    <mat-form-field class="filter-field">
+      <mat-select formControlName="location" placeholder="Location" name="location">
+        <mat-option *ngFor="let locationValue of locationOption" [value]="locationValue">
+          {{locationValue}}
+        </mat-option>
+      </mat-select>
+      <!--<button mat-button *ngIf="filterFormGroup?.value?.location" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormGroup?.controls?.['location']?.setValue('');  $event.stopPropagation()">
+        <mat-icon>close</mat-icon>
+      </button>-->
+    </mat-form-field>
+
+    <!-- Campo team -->
+    <mat-form-field class="filter-field">
+      <mat-select formControlName="team" clearable placeholder="Team" name="team">
+        <mat-option *ngFor="let teamValue of teamOptions" [value]="teamValue">
+          {{teamValue}}
+        </mat-option>
+      </mat-select>
+      <!--<button mat-button *ngIf="filterFormGroup?.value?.team" matSuffix mat-icon-button aria-label="Clear" (click)="filterFormGroup?.controls?.['team']?.setValue('');  $event.stopPropagation()">
+        <mat-icon>close</mat-icon>
+      </button>-->
+    </mat-form-field>
+
+    <!-- Boton limpiar filtro -->
+    <div class="filter-field" style="margin-left: 10px">
+      <button type="button" mat-icon-button color="primary" matTooltip="Limpiar filtro" matTooltipPosition="above"
+        (click)="resetFilter()">
+        <mat-icon aria-label="Filtrar">clear</mat-icon>
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Tabla de Visualizacion -->
+<div class="table-section">
+  <div>
+    <mat-progress-bar *ngIf="loadingData" mode="indeterminate"></mat-progress-bar>
+    <table mat-table [dataSource]="dictionaryData"  style="width: 100%;">
+
+      <!-- name -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <div *ngIf="editingRowIndex === index; else showData">
+            <mat-form-field class="filter-field" [formGroup]="modificationFormGroup">
+              <input matInput formControlName="name" placeholder="Name">
+            </mat-form-field>
+          </div>
+          <ng-template #showData>
+            {{element.name}}
+          </ng-template>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <input matInput formControlName="name" placeholder="Name">
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- anumber -->
+      <ng-container matColumnDef="anumber">
+        <mat-header-cell *matHeaderCellDef> Anumber </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{element.anumber}}
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <input matInput formControlName="anumber" placeholder="Anumber">
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- location -->
+      <ng-container matColumnDef="location">
+        <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <div *ngIf="editingRowIndex === index; else showData">
+            <mat-form-field class="filter-field" [formGroup]="modificationFormGroup">
+              <mat-select formControlName="location" placeholder="Location" name="location" >
+                <mat-option *ngFor="let locationValue of locationOption" [value]="locationValue"> {{locationValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <ng-template #showData>
+            {{element.location}}
+          </ng-template>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <mat-select formControlName="location" placeholder="Location" name="location" >
+                <mat-option *ngFor="let locationValue of locationOption" [value]="locationValue"> {{locationValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- team -->
+      <ng-container matColumnDef="team">
+        <mat-header-cell *matHeaderCellDef> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <div *ngIf="editingRowIndex === index; else showData">
+            <mat-form-field class="filter-field" [formGroup]="modificationFormGroup">
+              <mat-select formControlName="team" placeholder="Team" name="team">
+                <mat-option *ngFor="let teamValue of teamOptions" [value]="teamValue"> {{teamValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <ng-template #showData>
+            {{element.team}}
+          </ng-template>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <mat-select formControlName="team" placeholder="Team" name="team">
+                <mat-option *ngFor="let teamValue of teamOptions" [value]="teamValue"> {{teamValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- holiday -->
+      <ng-container matColumnDef="holiday">
+        <mat-header-cell *matHeaderCellDef> Holiday </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <div *ngIf="editingRowIndex === index; else showData">
+            <mat-form-field class="filter-field" [formGroup]="modificationFormGroup">
+              <input matInput formControlName="holiday" placeholder="Holiday">
+            </mat-form-field>
+          </div>
+          <ng-template #showData>
+            {{element.holiday}}
+          </ng-template>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <input matInput formControlName="holiday" placeholder="Holiday">
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- Iconos footer -->
+      <ng-container matColumnDef="iconFooter" class="icons-footer">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <!-- Boton cancelar modificar -->
+          <div *ngIf="editingRowIndex === index">
+            <button type="button" mat-icon-button color="warn" matTooltip="Cancelar" matTooltipPosition="above"
+              (click)="rowEditActivate(null); modificationFormGroup.reset(); $event.stopPropagation();">
+              <mat-icon aria-label="Cancelar">clear</mat-icon>
+            </button>
+            <!-- Boton confirmar modificar -->
+            <button type="button" mat-icon-button color="primary" matTooltip="Modificar" matTooltipPosition="above"
+              (click)="modifyDictionaryEntry(modificationFormGroup.value); $event.stopPropagation();">
+              <mat-icon aria-label=" Modificar">check</mat-icon>
+            </button>
+          </div>
+          <!-- Boton eliminar -->
+          <div *ngIf="editingRowIndex !== index">
+            <button class="deleteButton" type="button" mat-icon-button color="warn" matTooltip="Eliminar"
+                    matTooltipPosition="above" (click)="confirmDelete(element); $event.stopPropagation();">
+              <mat-icon aria-label="Eliminar">delete_outline</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef >
+          <div class="buttons" style="display: flex; align-items: center; gap: 16px">
+
+            <div *ngIf="!showCreate; else actionButtons" style="display: flex; align-items: center; gap: 16px">
+              <!-- Boton crear -->
+              <button mat-flat-button color="primary" matTooltip="Crear nuevo" matTooltipPosition="above"
+                      (click)="showCreate = true; rowEditActivate(null); $event.stopPropagation()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <ng-template #actionButtons>
+              <!-- Boton cancelar crear -->
+              <button mat-flat-button color="warn" matTooltip="Cancelar" matTooltipPosition="above"
+                (click)="showCreate = false; resetCreationForm()">
+                <mat-icon>clear</mat-icon>
+              </button>
+
+              <!-- Boton confirmar crear -->
+              <button mat-flat-button color="primary" matTooltip="Confirmar" matTooltipPosition="above"
+                (click)="createDictionaryEntry(creationFormGroup.value); showCreate = false; resetCreationForm()">
+                <mat-icon>check</mat-icon>
+              </button>
+            </ng-template>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; let index = index; columns: displayedColumns;"
+        (click)="rowEditActivate(index, row);showCreate = false; resetCreationForm(); $event.stopPropagation();"
+        class="row"></mat-row>
+      <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+    </table>
+  </div>
+</div>
+
+
+<mat-paginator hidePageSize="true" [pageSizeOptions]="[10]" showFirstLastButtons class="table-paginator-section">
+</mat-paginator>

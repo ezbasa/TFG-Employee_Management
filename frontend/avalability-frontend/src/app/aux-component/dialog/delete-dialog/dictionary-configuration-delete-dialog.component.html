@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>¡Atención!</h1>
+<div class="content-delete-dialog">
+  <div mat-dialog-content>
+  <p>¿Deseas eliminar el siguiente elemento del diccionario?</p>
+  <p> <strong>Name:</strong> {{data.name}} </p>
+  <p> <strong>anumber:</strong> {{data.anumber}} </p>
+  <p style="color: red"> <strong>Se borrarán los registros del empleado</strong></p>
+  </div>
+  <div mat-dialog-actions >
+  <button mat-flat-button color="warn" (click)="closeDeleteDialog(false)">
+    <mat-icon>clear</mat-icon> Cancelar
+  </button>
+  <button mat-flat-button color="primary" (click)="closeDeleteDialog(true)" cdkFocusInitial>
+    <mat-icon>check</mat-icon> Confirmar
+  </button>
+  </div>
+</div>
