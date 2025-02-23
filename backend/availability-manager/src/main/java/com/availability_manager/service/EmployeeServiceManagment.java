@@ -1,15 +1,17 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.model.DTO.EmployeeDTO;
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.CalendarItem;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.model.DTO.EmployeeDTO;
+import com.availability_manager.model.DTO.EmployeeWithRoleDTO;
+import com.availability_manager.model.Employee;
+import com.availability_manager.model.Login;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -21,6 +23,8 @@ public class EmployeeServiceManagment {
     private final CalendarService calendarService;
 
     private final EmployeeService employeeService;
+
+    private final AuthService authService;
 
     /**
      * Obtengo los empleados(transformo DTO), obtengo los items(transformo a DTO)
@@ -62,6 +66,44 @@ public class EmployeeServiceManagment {
                     return empDTO;
                 })
                 .toList();
+    }
+
+    public List<EmployeeWithRoleDTO> employeeToEmployeeWithRoleDtoMapper(){
+        List<Employee> employeeList = employeeService.getAll();
+        List<Login> loginList = authService.getAllLogins();
+
+        return employeeList.stream()
+                .map(employee -> {
+                    EmployeeWithRoleDTO dto = new EmployeeWithRoleDTO();
+
+                    //datos generales del employee
+                    BeanUtils.copyProperties(employee, dto);
+
+                    //añadimos el login
+                    loginList.stream()
+                            .filter(login -> login.getEmployeeAnumber().equals(employee.getAnumber()))
+                            .findFirst()
+                            .ifPresent(login -> dto.setRole(login.getRole()));
+
+                    return dto;
+                })
+                .toList();
+    }
+
+    @Transactional
+    public EmployeeWithRoleDTO updateEmployee(@NotNull EmployeeWithRoleDTO employeeRoleDTO) {
+        //actualizo empleado
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employeeRoleDTO, employeeDTO);
+        employeeService.updateEmployee(employeeDTO);
+
+        //actualizo rol
+        Login login = new Login();
+        login.setEmployeeAnumber(employeeRoleDTO.getAnumber());
+        login.setRole(employeeRoleDTO.getRole());
+        authService.updateLogin(login);
+
+        return employeeRoleDTO;
     }
 
     /**

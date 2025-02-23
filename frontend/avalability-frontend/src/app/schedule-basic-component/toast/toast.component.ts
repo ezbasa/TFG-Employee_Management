@@ -22,8 +22,9 @@ export class ToastScheduleComponent {
     { title: 'Error !', content: 'Conflict with existing Item.', cssClass: 'e-toast-danger' },
     { title: 'Error !', content: 'Entity not found.', cssClass: 'e-toast-danger' },
     { title: 'Error !', content: 'Bad Request. (check the data)', cssClass: 'e-toast-danger' },
+    { title: 'Error !', content: 'you do not have permission to modify it', cssClass: 'e-toast-danger' },
     { title: 'Error !', content: 'Internal Server Error', cssClass: 'e-toast-danger' },
-    { title: 'Warning !', content: 'One day maximum (NOT SENT)', cssClass: 'e-toast-warning' } //6
+    { title: 'Warning !', content: 'One day maximum (NOT SENT)', cssClass: 'e-toast-warning' } //7
   ];
 
   constructor(private toastService: ToastService) {

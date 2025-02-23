@@ -1,9 +1,9 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.model.ItemType;
+import com.availability_manager.model.CalendarItem;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.model.Employee;
+import com.availability_manager.model.enumerate.ItemType;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
@@ -39,7 +39,7 @@ public class CalendarServiceManagement {
     public List<CalendarItemDTO> insertCalendar(@Valid @NotNull CalendarItemDTO dto) {
         List<CalendarItem> result = new ArrayList<>();
 
-        if(dto.getItemType().equals(ItemType.FESTIVO)){
+        if(dto.getItemType().equals(ItemType.BANKDAY)){
             List<Employee> employees = employeeService.getAllByLocation(dto.getLocation());
 
             for(Employee employee : employees){
@@ -54,7 +54,7 @@ public class CalendarServiceManagement {
             List<CalendarItemDTO> listItemsDTO = excludeWeekends(dto);
             List<CalendarItemDTO> choppedDTO = excludeBankDays(listItemsDTO);
 
-            if(dto.getItemType().equals(ItemType.VACACIONES)){
+            if(dto.getItemType().equals(ItemType.HOLIDAY)){
                 holidayCheck(choppedDTO, 0);
             }
 
@@ -102,7 +102,7 @@ public class CalendarServiceManagement {
         List<CalendarItemDTO> listItemsDTO = excludeWeekends(dto);
         List<CalendarItemDTO> choppedDTO = excludeBankDays(listItemsDTO);
 
-        if(dto.getItemType().equals(ItemType.VACACIONES)){
+        if(dto.getItemType().equals(ItemType.HOLIDAY)){
             Long daysItem = getHolidayItemToUpdate(dto.getId());
             holidayCheck(choppedDTO, daysItem);
         }

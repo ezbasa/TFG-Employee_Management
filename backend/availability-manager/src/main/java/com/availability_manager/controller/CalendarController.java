@@ -1,99 +1,17 @@
-/*
-package com.dekra.availability_manager.controller;
+package com.availability_manager.controller;
 
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.exception.ExistItemException;
-import com.dekra.availability_manager.exception.InvalidDateRangeException;
-import com.dekra.availability_manager.service.CalendarService;
-import com.dekra.availability_manager.service.CalendarServiceManagement;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.Instant;
-import java.util.List;
-
-@Controller
-@Validated
-@RequestMapping("/item-calendar")
-public class CalendarController {
-
-    @Autowired
-    private CalendarService service;
-
-    @Autowired
-    private CalendarServiceManagement management;
-
-    @GetMapping()
-    public ResponseEntity<List<CalendarItem>> getCalendar(@NotNull @RequestParam Instant fechaInicio,
-                                                          @NotNull @RequestParam Instant fechaFin) {
-
-        return ResponseEntity.ok(service.getCalendars(fechaInicio, fechaFin));
-    }
-
-    @PutMapping
-    public ResponseEntity<List<CalendarItemDTO>> updateCalendar(@NotBlank @Valid @RequestBody CalendarItemDTO dto) {
-
-        return ResponseEntity.ok(management.updateCalendar(dto));
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> deleteCalendar(@NotNull @RequestParam Long id) {
-
-        service.deleteCalendar(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping
-    public ResponseEntity<List<CalendarItemDTO>> addCalendar(@Valid @NotNull @RequestBody CalendarItemDTO dto) {
-
-        return new ResponseEntity<>(management.insertCalendar(dto), HttpStatus.CREATED);
-    }
-
-
-    @ExceptionHandler(InvalidDateRangeException.class)
-    public ResponseEntity<String> handleException(InvalidDateRangeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleException(EntityNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(ExistItemException.class)
-    public ResponseEntity<String> handleException(ExistItemException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> handleException(ValidationException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-}*/
-package com.dekra.availability_manager.controller;
-
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.exception.ExistItemException;
-import com.dekra.availability_manager.exception.InvalidDateRangeException;
-import com.dekra.availability_manager.service.CalendarService;
-import com.dekra.availability_manager.service.CalendarServiceManagement;
+import com.availability_manager.model.CalendarItem;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.exception.ExistItemException;
+import com.availability_manager.exception.InvalidDateRangeException;
+import com.availability_manager.service.CalendarService;
+import com.availability_manager.service.CalendarServiceManagement;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+//import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -103,15 +21,16 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+//import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.time.Instant;
 import java.util.List;
 
 @Tag(name = "Calendar Management", description = "APIs for managing calendar items")
-@Controller
+@RestController
 @Validated
 @RequestMapping("/item-calendar")
 public class CalendarController {
@@ -121,6 +40,14 @@ public class CalendarController {
 
     @Autowired
     private CalendarServiceManagement management;
+
+    /*
+    @GetMapping("/test")
+    public String test() {
+        return "Controller is working!";
+    }
+     */
+
 
     @Operation(
             summary = "Obtener ítems del calendario por rango de fechas",
@@ -186,7 +113,8 @@ public class CalendarController {
             summary = "Eliminar un ítem del calendario",
             description = "Este endpoint permite eliminar un ítem del calendario por su ID",
             parameters = {
-                    @Parameter(name = "id", description = "ID del ítem del calendario", required = true, schema = @Schema(type = "integer"))
+                    @Parameter(name = "id", description = "ID del ítem del calendario", required = true, schema = @Schema(type = "integer")),
+                    @Parameter(name = "anumber", description = "string usado en los filtros de JWT", required = true)
             },
             responses = {
                     @ApiResponse(responseCode = "204", description = "Ítem del calendario eliminado exitosamente", content = @Content),
@@ -196,7 +124,7 @@ public class CalendarController {
             }
     )
     @DeleteMapping
-    public ResponseEntity<Void> deleteCalendar(@NotNull @RequestParam Long id) {
+    public ResponseEntity<Void> deleteCalendar(@NotNull @RequestParam Long id, String anumber) {
         service.deleteCalendar(id);
         return ResponseEntity.noContent().build();
     }

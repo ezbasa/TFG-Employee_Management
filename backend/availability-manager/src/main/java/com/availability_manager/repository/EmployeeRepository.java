@@ -1,6 +1,6 @@
-package com.dekra.availability_manager.repository;
+package com.availability_manager.repository;
 
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

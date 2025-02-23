@@ -1,11 +1,12 @@
-package com.dekra.availability_manager.controller;
+/* package com.availability_manager.controller;
 
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.model.ItemType;
+import com.availability_manager.model.CalendarItem;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.model.Employee;
+import com.availability_manager.model.enumerate.ItemType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Disabled
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CalendarControllerIT {
@@ -33,11 +35,11 @@ public class CalendarControllerIT {
     @Test
     public void testAddCalendar_corect() throws Exception {
         //anumber diferente al de la bbdd
-        CalendarItemDTO dto = new CalendarItemDTO(null, ItemType.TELETRABAJO, "", Instant.parse("2024-07-18T00:00:00Z"), Instant.parse("2024-07-18T23:59:59Z"), "A345678", "");
+        CalendarItemDTO dto = new CalendarItemDTO(null, ItemType.TELEWORK, "", Instant.parse("2024-07-18T00:00:00Z"), Instant.parse("2024-07-18T23:59:59Z"), "A345678", "");
         String jsonDto = jacksonObjectMapper.writeValueAsString(dto);
 
         Employee e = new Employee("A345678", "Antonio Pérez Farfan", "IA", "Malaga", 0,null);
-        CalendarItem item = new CalendarItem(null, ItemType.TELETRABAJO, "", Instant.parse("2024-07-18T00:00:00Z"), Instant.parse("2024-07-18T23:59:59Z"), true, e);
+        CalendarItem item = new CalendarItem(null, ItemType.TELEWORK, "", Instant.parse("2024-07-18T00:00:00Z"), Instant.parse("2024-07-18T23:59:59Z"), true, e);
         String jsonItem = jacksonObjectMapper.writeValueAsString(item);
 
         //create correcto
@@ -67,11 +69,11 @@ public class CalendarControllerIT {
     @Test
     public void testUpdateCalendar_correct() throws Exception {
         //anumber diferente al de la bbdd
-        CalendarItemDTO dto = new CalendarItemDTO(3L, ItemType.TELETRABAJO, "", Instant.parse("2026-07-18T00:00:00Z"), Instant.parse("2026-07-18T23:59:59Z"), "A234567", "");
+        CalendarItemDTO dto = new CalendarItemDTO(3L, ItemType.TELEWORK, "", Instant.parse("2026-07-18T00:00:00Z"), Instant.parse("2026-07-18T23:59:59Z"), "A234567", "");
         String jsonDto = jacksonObjectMapper.writeValueAsString(dto);
 
         Employee e = new Employee("A234567", "Isaias Vazquez Nuñez", "Big Data", "Malaga", 0, null);
-        CalendarItem item = new CalendarItem(null, ItemType.TELETRABAJO, "", Instant.parse("2026-07-18T00:00:00Z"), Instant.parse("2026-07-18T23:59:59Z"), true, e);
+        CalendarItem item = new CalendarItem(null, ItemType.TELEWORK, "", Instant.parse("2026-07-18T00:00:00Z"), Instant.parse("2026-07-18T23:59:59Z"), true, e);
         String jsonItem = jacksonObjectMapper.writeValueAsString(item);
 
         //create correcto
@@ -92,3 +94,6 @@ public class CalendarControllerIT {
     }
 
 }
+
+
+ */

@@ -1,8 +1,8 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
 
-import com.dekra.availability_manager.model.DTO.EmployeeDTO;
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.DTO.EmployeeDTO;
+import com.availability_manager.model.Employee;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;

@@ -1,9 +1,9 @@
-package com.dekra.availability_manager.repository;
+package com.availability_manager.repository;
 
-import com.dekra.availability_manager.model.ItemType;
+import com.availability_manager.model.enumerate.ItemType;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.dekra.availability_manager.model.CalendarItem;
+import com.availability_manager.model.CalendarItem;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -40,7 +40,7 @@ public interface CalendarRepository extends JpaRepository<CalendarItem, Long> {
     @Modifying
     @Query("UPDATE CalendarItem i " +
             "SET i.itemActive = false " +
-            "WHERE i.itemType = 'FESTIVO' " +
+            "WHERE i.itemType = 'BANKDAY' " +
             "AND i.startDate = :startDate AND i.endDate = :endDate")
     void falseAllBankDays(Instant startDate, Instant endDate);
 

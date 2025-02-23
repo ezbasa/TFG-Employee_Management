@@ -24,11 +24,12 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatPaginator} from "@angular/material/paginator";
 import {RouterModule, Routes} from "@angular/router";
 import { MatTableModule } from '@angular/material/table';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {DictionaryConfigurationService} from "./services/dictionary-configuration.service";
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from "@angular/material/button";
 import {ToolbarComponent} from "../schedule-basic-component/toolbar/toolbar.component";
+import {authInterceptor} from "../interceptors/auth.interceptor";
 
 const routes: Routes = [
   { path: '', component: DictionaryConfigurationComponent } // Ruta principal para el módulo
@@ -55,13 +56,12 @@ const routes: Routes = [
     MatRow,
     MatHeaderRow,
     MatTableModule,
-    HttpClientModule,
     MatInputModule,
     MatButtonModule,
     RouterModule.forChild(routes),
     ToolbarComponent
   ],
     exports: [RouterModule, DictionaryConfigurationComponent],
-  providers: [DictionaryConfigurationService]
+  providers: [DictionaryConfigurationService,  { provide: HTTP_INTERCEPTORS, useFactory: () => authInterceptor, multi: true }]
 })
 export class DictionaryConfigurationModule {}

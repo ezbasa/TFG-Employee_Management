@@ -27,22 +27,22 @@ import {
   DropDownListModule
 } from '@syncfusion/ej2-angular-dropdowns';
 import {DialogAllModule} from '@syncfusion/ej2-angular-popups';
-import {HttpClient, HttpClientModule, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { MatButtonModule } from '@angular/material/button';
-import {MatIcon} from "@angular/material/icon";
+//import {MatIcon} from "@angular/material/icon";
 import { extend, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {ClickEventArgs} from "@syncfusion/ej2-angular-buttons";
 import {DropDownButton} from '@syncfusion/ej2-angular-splitbuttons'
-import {JsonPipe, CommonModule} from "@angular/common";
+import {/*JsonPipe,*/ CommonModule} from "@angular/common";
 import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import { FormValidator } from "@syncfusion/ej2-angular-inputs";
 import {ToastService} from "../toast/toast.service";
 import {ColorRender} from "./color-render.service";
 
 //imponto Toolbar para que se carge al llamar a este
-import {ToolbarComponent} from "../toolbar/toolbar.component";
+//import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {ToastScheduleComponent} from "../toast/toast.component";
 
 @Component({
@@ -52,7 +52,7 @@ import {ToastScheduleComponent} from "../toast/toast.component";
   encapsulation: ViewEncapsulation.None,
   providers: [DayService, TimelineViewsService, TimelineMonthService, TimelineYearService, ResizeService, DragAndDropService, CheckBoxSelectionService],
   standalone: true,
-  imports: [ScheduleAllModule, HttpClientModule, MatToolbarModule, MatIcon, MatButtonModule, DialogAllModule, FormsModule, ReactiveFormsModule, MultiSelectModule, JsonPipe, DateTimePickerModule, DropDownListModule, CommonModule, ToolbarComponent, ToastScheduleComponent]
+  imports: [ScheduleAllModule, MatToolbarModule, /*MatIcon,*/ MatButtonModule, DialogAllModule, FormsModule, ReactiveFormsModule, MultiSelectModule, /*JsonPipe,*/ DateTimePickerModule, DropDownListModule, CommonModule, /*ToolbarComponent,*/ ToastScheduleComponent]
 })
 
 export class ScheduleEmployeeComponent implements OnInit {
@@ -82,10 +82,11 @@ export class ScheduleEmployeeComponent implements OnInit {
 
   //primera carga de datos (obtengo la fecha manualmente)
   ngOnInit(): void {
-    var date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
+    //console.log("CALENDARIO LANZADO")
     this.sendRequest(firstDay.toISOString(), lastDay.toISOString());
   }
 
@@ -102,7 +103,12 @@ export class ScheduleEmployeeComponent implements OnInit {
         template: '<button id="dropdownButton"></button>', // Aquí solo declaramos el botón
       };
 
-      args.items.push(subjectFilter, teamFilter, dropdownButtonItem/*, employeeFilter*/); // Añadimos ambos filtros
+      args.items.push(subjectFilter, teamFilter);
+
+      const userRole = localStorage.getItem('role');
+      if (userRole === 'PROJECT_MANAGER') { // Cambia según el rol que necesites
+        args.items.push(dropdownButtonItem);
+      }
     }
   }
 
@@ -131,16 +137,16 @@ export class ScheduleEmployeeComponent implements OnInit {
     }
   }
 
-  //CREACIÓN FESTIVO
+  //CREACIÓN BANKDAY
   public showLocation: boolean = false;
-  public festivo: string[] = ['FESTIVO']
+  public bankday: string[] = ['BANKDAY']
 
   public onCreateEventClick() {
     this.showLocation = true;
 
     const item  = {
       id : null,
-      Subject : 'FESTIVO',
+      Subject : 'BANKDAY',
       description : "",
       startDate : null,
       endDate : null,
@@ -167,7 +173,7 @@ export class ScheduleEmployeeComponent implements OnInit {
   //CONTROL DE PETICIONES Y TRANSICIONES ENTRE VISTAS --------------------------------------------------------
 
    //Enviar peticion http
-  calendarURL = "/employee/range" //Recoge todo entre unas fechas
+  calendarURL = "/employee/range" //Recoge todos los empleados, item entre unas fechas
   itemURL = "/item-calendar" //Acciones crud de los items
 
   //gestion de evnetos
@@ -182,7 +188,7 @@ export class ScheduleEmployeeComponent implements OnInit {
 
       case "eventCreated":
 
-            if(event.data[0].Subject == 'FESTIVO'){
+            if(event.data[0].Subject == 'BANKDAY'){
               const dia = event.data[0].EndTime - event.data[0].StartTime
               const miliSecondInOneDay = 1000 * 60 * 60 * 24;
               //console.log("dias", dia)
@@ -201,7 +207,7 @@ export class ScheduleEmployeeComponent implements OnInit {
 
       case "eventChanged":
 
-        if(event.data[0].Subject == 'FESTIVO'){
+        if(event.data[0].Subject == 'BANKDAY'){
           const dia = event.data[0].EndTime - event.data[0].StartTime
           const miliSecondInOneDay = 1000 * 60 * 60 * 24;
           //console.log("dias", dia)
@@ -253,7 +259,7 @@ export class ScheduleEmployeeComponent implements OnInit {
   }
 
   private updateItem(data){
-    this.Anumber = data.data[0].EmployeeId
+    this.Anumber = data.data[0].EmployeeId //imagino que uso esto aquí, por si modifico sin abrir pop-up
     console.log(this.Anumber)
     const i = this.createItem(data); //creo el item
 
@@ -274,9 +280,12 @@ export class ScheduleEmployeeComponent implements OnInit {
   }
 
   private deleteItem(data){
+
     const id = data.data[0].Id;
     const params = new HttpParams()
       .set('id', id as number)
+      .set('anumber', this.Anumber as string);
+
 
     this.http.delete(this.itemURL, {params})
       .subscribe(
@@ -331,12 +340,19 @@ export class ScheduleEmployeeComponent implements OnInit {
       .set('startDate', startDate as string)
       .set('endDate', endDate as string)
 
+    console.log("fechas" + startDate + " fin " + endDate)
+
     this.http.get<any[]>(this.calendarURL, {params} )
       .subscribe(
         response => {
+          //console.log("respuesta", response)//el empleado llega
           this.employeeDataSource = this.employeeMapping(response); //mapeo empleados
+          //console.log("Estos son los empleados: " , this.originalEmployeeData/*.toString()*/)
           this.items = this.itemsMapping(response);//mapeo items
+            //console.log("Estos son los items:" + this.items)
           this.data = extend([], this.items, null, true) as Record<string, any>[];
+
+          //this.scheduleObj.dataBind();//fuerzo la acutalización de datos (seguimos en las mismas)
 
           // Actualizar la configuración de eventos
           this.eventSettings = {
@@ -398,12 +414,12 @@ export class ScheduleEmployeeComponent implements OnInit {
     // Dropdown para el filtro de "Subject"
     this.subjectDropdown = new DropDownList({
       dataSource: [
-        { text: "Todos", value: "" },
-        { text: "Ausencia", value: "AUSENCIA" },
-        { text: "Baja", value: "BAJA" },
-        { text: "Festivo", value: "FESTIVO" },
-        { text: "Teletrabajo", value: "TELETRABAJO" },
-        { text: "Vacaciones", value: "VACACIONES" }
+        { text: "All", value: "" },
+        { text: "Absence", value: "ABSENCE" },
+        { text: "Sickleave", value: "SICKLEAVE" },
+        { text: "Bankday", value: "BANKDAY" },
+        { text: "Telework", value: "TELEWORK" },
+        { text: "Holiday", value: "HOLIDAY" }
       ],
       fields: { text: "text", value: 'value' },
       placeholder: 'Select Type',
@@ -431,11 +447,11 @@ export class ScheduleEmployeeComponent implements OnInit {
     // Dropdown para el filtro de "Team"
     this.teamDropdown = new DropDownList({
       dataSource: [
-        { text: "Todos", value: "" },
+        { text: "All", value: "" },
         { text: "Back", value: "Back" },
         { text: "Front", value: "Front" },
         { text: "QA", value: "QA" },
-        { text: "Soporte", value: "Soporte" }
+        { text: "Support", value: "Support" }
       ],
       fields: { text: 'text', value: 'value' },
       placeholder: 'Select Team',
@@ -516,11 +532,11 @@ export class ScheduleEmployeeComponent implements OnInit {
 
   //NEW POPUP-----------------------------------------------------------------
 
-  public subjectOptions: string[] = ['AUSENCIA', 'BAJA', 'TELETRABAJO', 'VACACIONES'];
+  public subjectOptions: string[] = ['ABSENCE', 'SICKLEAVE', 'TELEWORK', 'HOLIDAY'];
   public locationOption: string[] = ['MADRID','MALAGA'];
   public startDate!: Date;
   public endDate!: Date;
-  public Anumber: String;
+  public Anumber: String; //esta variable está creada por algún inconveniente del uso del anumber en Syncfusion
 
   constructor(private http: HttpClient, private toastService: ToastService, public colorService: ColorRender) {}
 
@@ -550,7 +566,7 @@ export class ScheduleEmployeeComponent implements OnInit {
       //validator.addRules('StartTime', {required: true});//REVISAR
       //validator.addRules('EndtTime', {required: true});
 
-      //guardo el id para usarlo al enviar la peticion correspondiente
+      //guardo el ID para usarlo al enviar la peticion correspondiente
       this.Anumber = args.data['EmployeeId'];
     }
   }
@@ -563,7 +579,7 @@ export class ScheduleEmployeeComponent implements OnInit {
   //cancelar la seleccion de fin de semana
   optionPopUp(event){
     //modificacion del popup
-    if(event.data["Subject"] == 'FESTIVO'){
+    if(event.data["Subject"] == 'BANKDAY'){
       this.showLocation = true;
     }
 

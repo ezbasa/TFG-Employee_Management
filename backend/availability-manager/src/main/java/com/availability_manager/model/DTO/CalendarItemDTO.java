@@ -1,7 +1,7 @@
-package com.dekra.availability_manager.model.DTO;
+package com.availability_manager.model.DTO;
 
 
-import com.dekra.availability_manager.model.ItemType;
+import com.availability_manager.model.enumerate.ItemType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,7 @@
 
-package com.dekra.availability_manager.model;
+package com.availability_manager.model;
 
+import com.availability_manager.model.enumerate.ItemType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -49,5 +50,3 @@ public class CalendarItem {
     @JoinColumn(name = "employee_anumber")
     private Employee employee;
 }
-
-

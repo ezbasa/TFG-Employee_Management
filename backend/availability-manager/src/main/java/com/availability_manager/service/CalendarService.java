@@ -1,11 +1,11 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.model.Employee;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
-import com.dekra.availability_manager.model.CalendarItem;
+import com.availability_manager.model.CalendarItem;
 
 import java.time.Instant;
 import java.util.List;

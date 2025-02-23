@@ -17,7 +17,7 @@ import {DictionaryEntry} from "../models/dictionary-entry.model";
   styleUrls: ['./dictionary-configuration.component.scss'],
 })
 export class DictionaryConfigurationComponent implements OnInit {
-  displayedColumns = ['name', 'anumber', 'location', 'team', 'holiday', 'iconFooter'];
+  displayedColumns = ['name', 'anumber', 'location', 'team', 'role', 'holiday', 'iconFooter'];
   dictionaryData: any;
   dictionaryAllData: any;
   dictionaryDataBase: any;
@@ -31,8 +31,9 @@ export class DictionaryConfigurationComponent implements OnInit {
   locationDropdown: any;
   loadingData: Boolean;
 
-  public teamOptions: string[] = ['Back', 'Front', 'QA', 'Soporte'];
+  public teamOptions: string[] = ['Back', 'Front', 'QA', 'Support'];
   public locationOption: string[] = ['MADRID','MALAGA'];
+  public roleOption: string[] = ['PROJECT_MANAGER', 'EMPLOYEE'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   constructor(
@@ -51,6 +52,7 @@ export class DictionaryConfigurationComponent implements OnInit {
       anumber: [''],
       name: [''],
       team: [''],
+      //role: [''],
       location: [''],
       holiday: ['']
     });
@@ -59,6 +61,7 @@ export class DictionaryConfigurationComponent implements OnInit {
       anumber: [''],
       name: [''],
       team: [''],
+      role: [''],
       location: [''],
       holiday: ['']
     });
@@ -89,6 +92,7 @@ export class DictionaryConfigurationComponent implements OnInit {
         anumber: [row.anumber],
         name: [row.name],
         team: [row.team],
+        role:[row.role],
         location: [row.location],
         holiday: [row.holiday]
       });
@@ -127,6 +131,8 @@ export class DictionaryConfigurationComponent implements OnInit {
       formValues?.name !== '' &&
       formValues?.team !== null &&
       formValues?.team !== '' &&
+      formValues?.role !== null &&
+      formValues?.role !== '' &&
       formValues?.location !== null &&
       formValues?.location !== '' &&
       formValues?.holiday !== null &&
@@ -207,7 +213,6 @@ export class DictionaryConfigurationComponent implements OnInit {
     forkJoin([dictionary$]).subscribe(([dictionaryValue]) => {
 
       this.dictionaryDataBase = dictionaryValue;
-      console.log(this.dictionaryAllData);
 
       this.filterFormGroup.updateValueAndValidity({ onlySelf: false, emitEvent: true });
       this.loadingData = false;
@@ -230,6 +235,7 @@ export class DictionaryConfigurationComponent implements OnInit {
       anumber: null,
       name: null,
       team: null,
+      role: null,
       location: null,
       holiday: null
     });

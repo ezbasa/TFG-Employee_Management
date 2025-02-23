@@ -1,9 +1,4 @@
-<!--
-<app-toolbar></app-toolbar>
-<app-schedule></app-schedule>
-<app-toast></app-toast>
--->
 
-<app-toolbar></app-toolbar>
+<app-toolbar *ngIf="isAuthenticated"></app-toolbar>
 <router-outlet></router-outlet>
 

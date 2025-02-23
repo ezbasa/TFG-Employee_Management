@@ -1,4 +1,4 @@
-package com.dekra.availability_manager.model;
+package com.availability_manager.model.enumerate;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 public enum ItemType {
 
-    AUSENCIA( "TELETRABAJO"),
-    BAJA("FESTIVO"),
-    VACACIONES("FESTIVO"),
-    TELETRABAJO("AUSENCIA"),
-    FESTIVO("AUSENCIA", "BAJA", "VACACIONES", "TELETRABAJO");
+    ABSENCE( "TELEWORK"),
+    SICKLEAVE("BANKDAY"),
+    HOLIDAY("BANKDAY"),
+    TELEWORK("ABSENCE"),
+    BANKDAY("ABSENCE", "SICKLEAVE", "HOLIDAY", "TELEWORK");
 
     private final List<String> compatibles;
 

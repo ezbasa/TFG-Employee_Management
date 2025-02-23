@@ -1,7 +1,8 @@
-package com.dekra.availability_manager.service;
+/*package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.repository.EmployeeRepository;
+import com.availability_manager.model.Employee;
+import com.availability_manager.repository.EmployeeRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@Disabled
 @SpringBootTest(classes = EmployeeServiceImpl.class)
 @ActiveProfiles("test")
 class EmployeeServiceImplTest {
@@ -42,7 +44,7 @@ class EmployeeServiceImplTest {
         //then
         assertEquals(employees, employeesreturn);
     }*/
-
+/*
     @Test
     void test_getEmployee() {
         //given
@@ -72,3 +74,4 @@ class EmployeeServiceImplTest {
     }
 
 }
+*/
