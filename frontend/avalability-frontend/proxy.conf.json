@@ -10,5 +10,18 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/auth": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }
+
+/*"/employee/modification": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },*/

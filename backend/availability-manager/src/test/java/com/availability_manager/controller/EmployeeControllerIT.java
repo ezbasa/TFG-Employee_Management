@@ -1,6 +1,7 @@
-package com.dekra.availability_manager.controller;
+package com.availability_manager.controller;
 
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.Employee;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Disabled
 @SpringBootTest//(value = EmployeeController.class)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc

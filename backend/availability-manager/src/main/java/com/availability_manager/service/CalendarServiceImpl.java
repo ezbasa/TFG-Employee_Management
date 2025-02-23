@@ -1,12 +1,12 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.CalendarItem;
-import com.dekra.availability_manager.model.DTO.CalendarItemDTO;
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.model.ItemType;
-import com.dekra.availability_manager.exception.ExistItemException;
-import com.dekra.availability_manager.exception.InvalidDateRangeException;
-import com.dekra.availability_manager.repository.CalendarRepository;
+import com.availability_manager.model.CalendarItem;
+import com.availability_manager.model.DTO.CalendarItemDTO;
+import com.availability_manager.model.Employee;
+import com.availability_manager.model.enumerate.ItemType;
+import com.availability_manager.exception.ExistItemException;
+import com.availability_manager.exception.InvalidDateRangeException;
+import com.availability_manager.repository.CalendarRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -46,7 +46,7 @@ public class CalendarServiceImpl implements CalendarService {
     /**
      * Si el CalendarITem existe, cambia el valor de {@code itemActive} a (false)
      * <ul>
-     *     <il>Si el ItemType es {@code FESTIVO}, elimina todos los que coincidan con la fecha de inicio y fecha fin</il>
+     *     <il>Si el ItemType es {@code BANKDAY}, elimina todos los que coincidan con la fecha de inicio y fecha fin</il>
      * </ul>
      * @param id
      */
@@ -54,7 +54,7 @@ public class CalendarServiceImpl implements CalendarService {
     public void deleteCalendar(@NotNull Long id) {
         CalendarItem item = findByIdAndItemActive(id, true);
 
-        if(item.getItemType().equals(ItemType.FESTIVO)){
+        if(item.getItemType().equals(ItemType.BANKDAY)){
             repository.falseAllBankDays(item.getStartDate(), item.getEndDate());
 
         }else {
@@ -111,7 +111,7 @@ public class CalendarServiceImpl implements CalendarService {
      */
     @Override
     public List<CalendarItem> getBankDays(String Anumber, Instant startDate, Instant endDate) {
-        return repository.findEmployeeItems(Anumber, ItemType.FESTIVO, startDate, endDate);
+        return repository.findEmployeeItems(Anumber, ItemType.BANKDAY, startDate, endDate);
     }
 
     /**
@@ -128,7 +128,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     /**
-     * Calcula los dias de vacaciones anuales que tiene seleccionado un empleado
+     * Calcula los días de vacaciones anuales que tiene seleccionado un empleado
      * @param anumber
      * @return vacaciones ya reservadas
      */
@@ -139,13 +139,13 @@ public class CalendarServiceImpl implements CalendarService {
 
         Instant[] thisyear = thisyear();
 
-        List<CalendarItem> holidaysItems = repository.findEmployeeItems(anumber, ItemType.VACACIONES, thisyear[0], thisyear[1]);
+        List<CalendarItem> holidaysItems = repository.findEmployeeItems(anumber, ItemType.HOLIDAY, thisyear[0], thisyear[1]);
 
         for(CalendarItem item : holidaysItems) {
             holidays += (int)ChronoUnit.DAYS.between(item.getStartDate(), item.getEndDate()) + 1;
             //Sumo 1 día porque al quitarle 1 segundo de cada evento (para que no se pisen la hora inicio y fin) cuenta un día menos
 
-            bankHolidays += repository.findEmployeeItems(anumber, ItemType.FESTIVO, item.getStartDate(), item.getEndDate()).size();
+            bankHolidays += repository.findEmployeeItems(anumber, ItemType.BANKDAY, item.getStartDate(), item.getEndDate()).size();
         }
 
         return holidays-bankHolidays;
@@ -247,7 +247,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     /**
-     * Comprueba que la fecha de inicio no sea mas tarde que la fecha fin
+     * Comprueba que la fecha de inicio no sea más tarde que la fecha fin
      * @param startDate
      * @param endDate
      */

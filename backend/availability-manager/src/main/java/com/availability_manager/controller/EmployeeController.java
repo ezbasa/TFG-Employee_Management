@@ -1,10 +1,10 @@
 /*
-package com.dekra.availability_manager.controller;
+package com.availability_manager.controller;
 
-import com.dekra.availability_manager.model.DTO.EmployeeDTO;
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.service.EmployeeService;
-import com.dekra.availability_manager.service.EmployeeServiceManagment;
+import com.availability_manager.model.DTO.EmployeeDTO;
+import com.availability_manager.model.Employee;
+import com.availability_manager.service.EmployeeService;
+import com.availability_manager.service.EmployeeServiceManagment;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -83,18 +83,19 @@ public class EmployeeController {
     }
 }*/
 
-package com.dekra.availability_manager.controller;
+package com.availability_manager.controller;
 
-import com.dekra.availability_manager.model.DTO.EmployeeDTO;
-import com.dekra.availability_manager.model.Employee;
-import com.dekra.availability_manager.service.EmployeeService;
-import com.dekra.availability_manager.service.EmployeeServiceManagment;
+import com.availability_manager.model.DTO.EmployeeDTO;
+//import com.availability_manager.model.Employee;
+import com.availability_manager.model.DTO.EmployeeWithRoleDTO;
+import com.availability_manager.service.EmployeeService;
+import com.availability_manager.service.EmployeeServiceManagment;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+//import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -104,7 +105,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+//import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,7 +113,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Tag(name = "Employee Management", description = "APIs for managing employees")
-@Controller
+@RestController
 @Validated
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -131,9 +132,15 @@ public class EmployeeController {
                     @ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content)
             }
     )
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployeeDTO());
+    }
+
+    @GetMapping("/modification")
+    public ResponseEntity<List<EmployeeWithRoleDTO>> getAllEmployeeWithRoles() {
+        List<EmployeeWithRoleDTO> dtoList = employeeManagment.employeeToEmployeeWithRoleDtoMapper();
+        return ResponseEntity.ok(dtoList);
     }
 
     @Operation(
@@ -152,6 +159,7 @@ public class EmployeeController {
     @GetMapping("/range")
     public ResponseEntity<List<EmployeeDTO>> getRange(@NotNull @RequestParam Instant startDate,
                                                       @NotNull @RequestParam Instant endDate) {
+        //System.out.println("fecha" + startDate + " y " + endDate);
         return ResponseEntity.ok(employeeManagment.getEmployeesByDatesRange(startDate, endDate));
     }
 
@@ -189,8 +197,8 @@ public class EmployeeController {
             }
     )
     @PutMapping()
-    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody @Valid @NotNull EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(employeeService.updateEmployee(employeeDTO));
+    public ResponseEntity<EmployeeWithRoleDTO> updateEmployee(@RequestBody @Valid @NotNull EmployeeWithRoleDTO employeeRoleDTO) {
+        return ResponseEntity.ok(employeeManagment.updateEmployee(employeeRoleDTO));
     }
 
     @Operation(

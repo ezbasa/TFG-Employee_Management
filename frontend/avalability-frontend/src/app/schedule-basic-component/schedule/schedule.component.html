@@ -1,5 +1,3 @@
-<!--<app-toolbar></app-toolbar>-->
-
 <div class="flex-container">
 
   <div class="scheduler-container">
@@ -57,7 +55,7 @@
               <td class="e-textlabel">Type</td>
               <td colspan="4">
                 <ejs-dropdownlist id='Subject' class="e-field" data-name="Subject" placeholder='Choose Item'
-                                  [dataSource]="showLocation? festivo : subjectOptions" [value]="showLocation? 'FESTIVO' : data.Subject ">
+                                  [dataSource]="showLocation? bankday : subjectOptions" [value]="showLocation? 'BANKDAY' : data.Subject">
                 </ejs-dropdownlist>
               </td>
             </tr>

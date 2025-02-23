@@ -13,10 +13,11 @@ export class DictionaryConfigurationRestService {
   constructor(protected http: HttpClient) {}
 
   employeeURL: string = '/employee'
+  employeeGetURL: string = '/employee/modification'
 
   // Obtenemos todos los diccionarios.
   getDictionaries(): Observable<any> {
-    return this.http.get<any>(this.employeeURL);
+    return this.http.get<any>(this.employeeGetURL);
   }
 
   // Funcion para eliminar una fila del diccionario

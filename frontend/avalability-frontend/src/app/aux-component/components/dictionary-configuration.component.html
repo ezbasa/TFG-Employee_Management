@@ -1,8 +1,4 @@
 
-<!--<div>
-  <app-toolbar></app-toolbar>
-</div>-->
-
 <!-- Filtro -->
 <div class="filter-container"> <!--style="display: flex; align-items: center"-->
   <form #filter [formGroup]="filterFormGroup" class="filter-container"> <!--style="display: flex; align-items: center; gap: 15px; margin-left: 20px"-->
@@ -141,6 +137,32 @@
             <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
               <mat-select formControlName="team" placeholder="Team" name="team">
                 <mat-option *ngFor="let teamValue of teamOptions" [value]="teamValue"> {{teamValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-footer-cell>
+      </ng-container>
+
+      <!-- role -->
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <div *ngIf="editingRowIndex === index; else showData">
+            <mat-form-field class="filter-field" [formGroup]="modificationFormGroup">
+              <mat-select formControlName="role" placeholder="Role" name="role" >
+                <mat-option *ngFor="let roleValue of roleOption" [value]="roleValue"> {{roleValue}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <ng-template #showData>
+            {{element.role}}
+          </ng-template>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+          <div *ngIf="showCreate" class="form-create">
+            <mat-form-field class="filter-field" [formGroup]="creationFormGroup">
+              <mat-select formControlName="role" placeholder="Role" name="role" >
+                <mat-option *ngFor="let roleValue of roleOption" [value]="roleValue"> {{roleValue}} </mat-option>
               </mat-select>
             </mat-form-field>
           </div>

@@ -1,4 +1,4 @@
-package com.dekra.availability_manager.model.DTO;
+package com.availability_manager.model.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

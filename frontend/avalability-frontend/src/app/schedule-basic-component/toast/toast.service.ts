@@ -22,8 +22,11 @@ export class ToastService {
       case 400:
         code = 4
         break;
-      case 500:
+      case 403:
         code = 5
+        break;
+      case 500:
+        code = 6
         break;
     }
 

@@ -20,7 +20,7 @@ export class ColorRender {
     // Cambiar el color según el subject (al modificar la ausencia para que muestre la hora, me descentra los otros itema)
     switch (subject) {
 
-      case 'VACACIONES':
+      case 'HOLIDAY':
         args.element.style.backgroundColor = '#ff0202'; // Color para Meeting
         //subjectElement.innerHTML = `${subject}`;
         //args.element.innerHTML = defaultHTML;
@@ -29,7 +29,7 @@ export class ColorRender {
                                   </div>`*/
         break;
 
-      case 'AUSENCIA':
+      case 'ABSENCE':
         args.element.style.backgroundColor = '#575757'; // Color para Teletrabajo
         //añadir la hora
         //console.log(args.element.innerHTML)
@@ -41,7 +41,7 @@ export class ColorRender {
                                   </div>`;
         break;
 
-      case 'BAJA':
+      case 'SICKLEAVE':
         args.element.style.backgroundColor = '#6029ef'; // Color para Training
         //args.element.innerHTML = defaultHTML
         //console.log('DEFAULTHTML:', args.element.innerHTML)
@@ -50,7 +50,7 @@ export class ColorRender {
                                   </div>`*/
         break;
 
-      case 'FESTIVO':
+      case 'BANKDAY':
         args.element.style.backgroundColor = '#f3ac27'; // Color para Training
         //args.element.innerHTML = defaultHTML
         /*`<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
@@ -58,7 +58,7 @@ export class ColorRender {
                                   </div>`*/
         break;
 
-      case 'TELETRABAJO':
+      case 'TELEWORK':
         args.element.style.backgroundColor = '#ff8138'; // Color para Training
         //args.element.innerHTML = defaultHTML
         break;

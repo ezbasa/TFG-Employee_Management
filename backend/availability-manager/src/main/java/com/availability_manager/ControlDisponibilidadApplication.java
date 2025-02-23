@@ -1,4 +1,4 @@
-package com.dekra.availability_manager;
+package com.availability_manager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

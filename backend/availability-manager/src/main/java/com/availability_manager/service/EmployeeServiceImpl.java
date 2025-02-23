@@ -1,7 +1,8 @@
-package com.dekra.availability_manager.service;
+package com.availability_manager.service;
 
-import com.dekra.availability_manager.model.DTO.EmployeeDTO;
-import com.dekra.availability_manager.repository.EmployeeRepository;
+import com.availability_manager.model.DTO.EmployeeDTO;
+import com.availability_manager.model.DTO.EmployeeWithRoleDTO;
+import com.availability_manager.repository.EmployeeRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import com.dekra.availability_manager.model.Employee;
+import com.availability_manager.model.Employee;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * Obtengo todos los empleado y los Mapeo a DTO
+     * Obtengo todos los empleados y los Mapeo a DTO
      * @return Lista EmployeeDTO
      */
     @Transactional
@@ -69,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityExistsException("An employee with this number already exists");
         }
 
-        //añadir los dias de festivo al nuevo empleado---------------------------------------------------------------------
+        //añadir los días de festivo al nuevo empleado---------------------------------------------------------------------
 
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
@@ -83,7 +84,6 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeDTO
      * @return
      */
-    @Transactional
     @Override
     public EmployeeDTO updateEmployee(@NotNull EmployeeDTO employeeDTO) {
         Optional<Employee> employee = repository.findById(employeeDTO.getAnumber());
