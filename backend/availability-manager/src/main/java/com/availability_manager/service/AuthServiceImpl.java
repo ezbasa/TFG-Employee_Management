@@ -5,6 +5,7 @@ import com.availability_manager.model.Login;
 import com.availability_manager.repository.AuthRepository;
 import com.availability_manager.security.JwtProvider;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -74,7 +75,7 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
     @Override
     public String authenticateAndGenerateToken(Login receivedLogin) {
         Login login = authRepository.findByEmployee_Anumber(receivedLogin.getEmployeeAnumber())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(receivedLogin.getPassword(), login.getPassword())) {
             throw new BadCredentialsException("Invalid password");

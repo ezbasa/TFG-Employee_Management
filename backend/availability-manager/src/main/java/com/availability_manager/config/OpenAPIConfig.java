@@ -1,5 +1,5 @@
 
-package com.availability_manager.apiConfig;
+package com.availability_manager.config;
 
 
 
