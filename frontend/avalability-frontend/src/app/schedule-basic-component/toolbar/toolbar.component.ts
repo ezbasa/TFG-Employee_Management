@@ -71,4 +71,8 @@ export class ToolbarComponent implements OnInit {
         }
       )
   }
+
+  navigateToTeamwork() {
+    this.router.navigate(['teamwork'])
+  }
 }

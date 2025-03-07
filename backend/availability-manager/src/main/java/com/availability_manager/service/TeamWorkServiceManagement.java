@@ -5,6 +5,8 @@ import com.availability_manager.model.Employee;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,5 +28,28 @@ public class TeamWorkServiceManagement {
         }
 
         return employees;
+    }
+
+    public List<MemberDTO> getAllMembers() {
+        List<MemberDTO> members = new ArrayList<>();
+        List<Employee> employeeList = employeeService.getAll();
+
+        employeeList.forEach(employee -> {
+            MemberDTO memberDTO = employeeMapperToMemberDTO(employee);
+            members.add(memberDTO);
+        });
+
+        return members;
+    }
+
+    //mapper de membersDTO
+    private MemberDTO employeeMapperToMemberDTO(Employee employee) {
+        MemberDTO memberDTO = new MemberDTO();
+
+        memberDTO.setAnumber(employee.getAnumber());
+        memberDTO.setName(employee.getName());
+        memberDTO.setExpert(employee.getTeam());
+
+        return memberDTO;
     }
 }

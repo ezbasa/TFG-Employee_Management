@@ -1,8 +1,10 @@
 package com.availability_manager.controller;
 
 import com.availability_manager.exception.MaxTeamsReachedException;
+import com.availability_manager.model.DTO.MemberDTO;
 import com.availability_manager.model.DTO.TeamWorkDTO;
 import com.availability_manager.service.TeamWorkService;
+import com.availability_manager.service.TeamWorkServiceManagement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,16 @@ public class TeamWorkController {
 
     private final TeamWorkService teamWorkService;
 
+    private final TeamWorkServiceManagement teamWorkServiceManagement;
+
     @GetMapping()
     public ResponseEntity<List<TeamWorkDTO>> getAllTeamWork() {
         return new ResponseEntity<>(teamWorkService.getAllTeamWork(), HttpStatus.OK);
+    }
+
+    @GetMapping("/members")
+    public ResponseEntity<List<MemberDTO>> getAllMembers() {
+        return new ResponseEntity<>(teamWorkServiceManagement.getAllMembers(), HttpStatus.OK);
     }
 
     @PostMapping

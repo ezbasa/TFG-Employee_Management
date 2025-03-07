@@ -24,11 +24,8 @@ public class TeamWorkDTO {
     @NotBlank
     private String description;
 
-    @NotNull
-    private String teamLeader; //anumber del proyect_manager
-
-    @NotNull
-    private Instant createdDate;
+    //@NotNull
+    //private String teamLeader; //anumber del proyect_manager
 
     @NotNull
     private Set<MemberDTO> membersDTOS = new HashSet<>();

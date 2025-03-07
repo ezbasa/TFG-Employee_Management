@@ -1,0 +1,43 @@
+<div class="team-container">
+  <h2>Gestión de Equipos</h2>
+
+  <!-- Botón para crear un nuevo grupo (arriba a la derecha) -->
+  <button mat-fab color="primary" class="add-button" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <div *ngFor="let team of teams" class="team-card">
+    <div class="team-header">
+      <div>
+        <h3>{{ team.name }}</h3>
+        <p>{{ team.description }}</p>
+      </div>
+      <!-- Botones de Editar y Eliminar -->
+      <div class="actions">
+        <button mat-icon-button color="accent" (click)="openDialog(team)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTeam(team)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Función</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let member of team.membersDTOS">
+        <td>{{ member.anumber }}</td>
+        <td>{{ member.name }}</td>
+        <td>{{ member.expert }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

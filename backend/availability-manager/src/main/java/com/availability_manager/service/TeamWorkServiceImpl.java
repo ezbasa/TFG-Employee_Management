@@ -49,7 +49,7 @@ public class TeamWorkServiceImpl implements TeamWorkService {
 
         CheckMember(teamWorkDTO.getMembersDTOS());
 
-        TeamWork teamWork = teamWorkDTOToTeamWork(teamWorkDTO);
+        TeamWork teamWork = teamWorkDtoMapToTeamWork(teamWorkDTO);
         TeamWork t = teamWorkRepository.save(teamWork);
 
         return teamWorkMapToDTO(t);
@@ -61,11 +61,11 @@ public class TeamWorkServiceImpl implements TeamWorkService {
         TeamWork t = teamWorkRepository.findById(teamWorkDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("TeamWork not found"));
 
-        CheckUpdate( t,  teamWorkDTO);
+        CheckUpdate(t,teamWorkDTO);
 
-        teamWorkRepository.deleteById(t.getId());
-        TeamWork teamWork = teamWorkDTOToTeamWork(teamWorkDTO);
-        TeamWork twSave = teamWorkRepository.save(teamWork);
+        //copio las propiedades
+        t = teamWorkDtoMapToTeamWork(teamWorkDTO);
+        TeamWork twSave = teamWorkRepository.save(t);
         return teamWorkMapToDTO(twSave);
     }
 
@@ -75,7 +75,7 @@ public class TeamWorkServiceImpl implements TeamWorkService {
     }
 
     //FUNCIONES
-    private TeamWork teamWorkDTOToTeamWork(TeamWorkDTO teamWorkDTO) {
+    private TeamWork teamWorkDtoMapToTeamWork(TeamWorkDTO teamWorkDTO) {
         TeamWork teamWork = new TeamWork();
         BeanUtils.copyProperties(teamWorkDTO, teamWork);
         teamWork.setEmployees(teamWorkManagement.getEmployees(teamWorkDTO.getMembersDTOS()));
@@ -89,12 +89,13 @@ public class TeamWorkServiceImpl implements TeamWorkService {
      * @return
      */
     private TeamWorkDTO teamWorkMapToDTO(TeamWork teamWork) {
-
         TeamWorkDTO teamWorkDTO = new TeamWorkDTO();
+
+        //copio propiedades generales
         BeanUtils.copyProperties(teamWork, teamWorkDTO);
 
+        //copio los miembros
         Set<MemberDTO> memberDTOSet = new HashSet<>();
-
         teamWork.getEmployees().forEach(member -> {
             MemberDTO memberDTO = new MemberDTO();
             BeanUtils.copyProperties(member, memberDTO);
@@ -116,6 +117,8 @@ public class TeamWorkServiceImpl implements TeamWorkService {
     private void CheckUpdate(TeamWork t, TeamWorkDTO teamWorkDTO){
 
         if(t.getEmployees().size() == teamWorkDTO.getMembersDTOS().size()) {
+            //NONEMATCH devuelve true cuando alguno no coincide y el ANYMATCH deveulve true y recibe algún true
+            //si un miembor no coincide, directamente se va a comprobar si el miembro puede o no estar en mas grupos
             boolean employeesChanged = t.getEmployees().stream().anyMatch(employee ->
                     teamWorkDTO.getMembersDTOS().stream().noneMatch(memberDTO ->
                             employee.getAnumber().equals(memberDTO.getAnumber())
@@ -137,7 +140,7 @@ public class TeamWorkServiceImpl implements TeamWorkService {
         members.forEach(member -> {
             //obtengo la lista de grupos donde se encuntra un usuario
             List<TeamWork> teamWorkList = teamWorkRepository.membersInTeamWork(member.getAnumber());
-            if(teamWorkList.size() >= memberMaxTeam.getMaxTeams()){
+            if(teamWorkList.size() >= memberMaxTeam.getMaxTeams()+1){
                 throw new MaxTeamsReachedException("The employee cannot be in more teams");
             }
         });

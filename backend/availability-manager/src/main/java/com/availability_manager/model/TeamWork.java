@@ -28,12 +28,6 @@ public class TeamWork {
     @Column(name = "Description", nullable = false)
     private String description;
 
-    @Column(name = "TeamLeader", nullable = false, length = 50)
-    private String teamLeader;
-
-    @Column(name = "CreatedDate", nullable = false)
-    private Instant createdDate;
-
     @ManyToMany
     @JsonIgnore
     @JoinTable(name = "TeamsWorks_Employees", joinColumns = @JoinColumn(name = "TeamWork_Id"), inverseJoinColumns = @JoinColumn(name = "Employee_Anumber"))

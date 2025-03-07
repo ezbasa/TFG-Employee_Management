@@ -21,6 +21,7 @@ import { NgModule } from '@angular/core';
 import { LoginComponent } from './login/login.component'; // Asegúrate de importar el componente de login
 import { ScheduleEmployeeComponent } from './schedule-basic-component/schedule/schedule.component';
 import { DictionaryConfigurationModule } from './aux-component/dictionary-configuration.module';
+import {TeamworkComponent} from "./teamwork/teamwork.component";
 
 export const routes: Routes = [
 
@@ -29,6 +30,8 @@ export const routes: Routes = [
   { path: 'calendar', loadComponent: ()=> ScheduleEmployeeComponent},
 
   { path: 'employees', loadChildren: () => import('./aux-component/dictionary-configuration.module').then(m => m.DictionaryConfigurationModule)},
+
+  { path: 'teamwork', loadComponent: () => TeamworkComponent },
 
   // Redirección a la ruta inicial si no se encuentra una ruta
   { path: '**', redirectTo: 'login', pathMatch: 'full' }
