@@ -1,7 +1,6 @@
 package com.availability_manager.service;
 
 import com.availability_manager.model.DTO.EmployeeDTO;
-import com.availability_manager.model.DTO.EmployeeWithRoleDTO;
 import com.availability_manager.repository.EmployeeRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;

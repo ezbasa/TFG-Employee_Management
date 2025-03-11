@@ -24,6 +24,8 @@ public class EmployeeServiceManagment {
 
     private final EmployeeService employeeService;
 
+    private final TeamWorkService teamWorkService;
+
     private final AuthService authService;
 
     /**
@@ -106,6 +108,24 @@ public class EmployeeServiceManagment {
         return employeeRoleDTO;
     }
 
+    @Transactional
+    public EmployeeWithRoleDTO addEmployeeWithRole(@NotNull EmployeeWithRoleDTO employeeRoleDTO) {
+
+        //employee
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employeeRoleDTO, employeeDTO);
+        employeeService.addEmployee(employeeDTO);
+
+        //login
+        Login login = new Login();
+        login.setEmployeeAnumber(employeeRoleDTO.getAnumber());
+        login.setPassword("password");
+        login.setRole(employeeRoleDTO.getRole());
+        authService.registerLogin(login);
+
+        return employeeRoleDTO;
+    }
+
     /**
      * Mapeado de CalendarItem a CalendarItemDTO
      * @param items
@@ -137,11 +157,14 @@ public class EmployeeServiceManagment {
     }
 
     /**
-     * Elimina los items del empleado y seguidamente al empleado
+     * Elimina todo lo relacionado con el empleado y seguidamente al empleado
      * @param anumber
      */
+    @Transactional
     public void deleteEmployee(@NotBlank String anumber){
         calendarService.deleteAllItems(anumber);
+        teamWorkService.deleteMemberTeamwork(anumber);
+        authService.deleteLogin(anumber);
         employeeService.deleteEmployee(anumber);
     }
 }

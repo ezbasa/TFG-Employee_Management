@@ -25,11 +25,13 @@ export class TeamworkComponent implements OnInit{
   private membersURL = '/teamwork/members'; //recoger todos los miembros
   private teamworkURL = '/teamwork'
 
+  public showButton: boolean;
+
   constructor(private http: HttpClient, private dialog: MatDialog, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    //console.log("iniciamos las cargas")
+    this.checkrole();
     this.bringMembers();
     this.bringTeamwork();
   }
@@ -55,6 +57,16 @@ export class TeamworkComponent implements OnInit{
       });
 
 
+  }
+
+  private checkrole() {
+    const role = localStorage.getItem("role");
+
+    if(role == 'PROJECT_MANAGER') {
+      this.showButton = true;
+    }else{
+      this.showButton = false;
+    }
   }
 
   openDialog(team?: Teamwork): void {

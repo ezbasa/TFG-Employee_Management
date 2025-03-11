@@ -28,6 +28,9 @@ public class Login {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @Column(name = "firstAccess")
+    private boolean firstAccess;
+
     @OneToOne
     @MapsId // Indica que Login usará la misma clave primaria que Employee
     @JsonIgnore

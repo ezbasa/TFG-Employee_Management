@@ -4,22 +4,20 @@
   <span class="example-spacer"></span>
 
   <div *ngIf="showButton">
-    <div *ngIf="showButtonEmployee else calendarTemplate">
-      <button mat-button class="button" (click)="navigateToEmployees()">
-        <mat-icon>add</mat-icon>
-        Employee
-      </button>
-    </div>
-  </div>
-  <ng-template #calendarTemplate>
+
     <button mat-button class="button" (click)="navigateToCalendar()">
       <mat-icon>calendar_today</mat-icon>
       Scheduler
     </button>
-  </ng-template>
 
+    <button mat-button class="button" (click)="navigateToEmployees()">
+      <mat-icon>add</mat-icon>
+      Employee
+    </button>
+
+  </div>
   <button mat-button class="button" (click)="navigateToTeamwork()">
-    <mat-icon>team</mat-icon>
+    <mat-icon>groups</mat-icon>
     teamwork
   </button>
 

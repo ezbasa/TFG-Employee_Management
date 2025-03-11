@@ -47,9 +47,9 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
 
         Login newLogin = new Login();
         newLogin.setEmployee(emp);
-        String hashedPassword = passwordEncoder.encode(login.getPassword());
-        newLogin.setPassword(hashedPassword);
+        newLogin.setPassword("relleno");
         newLogin.setRole(login.getRole());
+        newLogin.setFirstAccess(true);
 
         return authRepository.save(newLogin);
     }
@@ -61,6 +61,11 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
 
         login.setRole(l.getRole());
         return authRepository.save(login);
+    }
+
+    @Override
+    public void deleteLogin(String anumber){
+        authRepository.deleteById(anumber);
     }
 
     /**
@@ -77,8 +82,14 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
         Login login = authRepository.findByEmployee_Anumber(receivedLogin.getEmployeeAnumber())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if (!passwordEncoder.matches(receivedLogin.getPassword(), login.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
+        if(login.isFirstAccess()){ //en el primer acceso se añade la contraseña
+            login.setPassword(passwordEncoder.encode(receivedLogin.getPassword()));
+            login.setFirstAccess(false);
+            authRepository.save(login);
+        }else {
+            if (!passwordEncoder.matches(receivedLogin.getPassword(), login.getPassword())) {
+                throw new BadCredentialsException("Invalid password");
+            }
         }
 
         // Generar y devolver el token JWT
@@ -90,7 +101,6 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
         return authRepository.findByEmployee_Anumber(anumber).get();
     }
 
-    //LOGOUT
     @Override
     public void logout(String token) {
         blacklistedTokens.add(token);

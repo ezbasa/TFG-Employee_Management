@@ -1,6 +1,7 @@
 package com.availability_manager.service;
 
 import com.availability_manager.model.Login;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface AuthService {
     Login registerLogin(Login login);
 
     Login updateLogin(Login login);
+
+    void deleteLogin(@NotBlank String anumber);
 
     String authenticateAndGenerateToken(Login login);
 

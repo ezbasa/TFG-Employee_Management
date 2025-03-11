@@ -178,8 +178,8 @@ public class EmployeeController {
             }
     )
     @PostMapping()
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid @NotNull EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(employeeService.addEmployee(employeeDTO));
+    public ResponseEntity<EmployeeWithRoleDTO> createEmployee(@RequestBody @Valid @NotNull EmployeeWithRoleDTO employeeDTO) {
+        return ResponseEntity.ok(employeeManagment.addEmployeeWithRole(employeeDTO));
     }
 
     @Operation(

@@ -4,6 +4,7 @@ import com.availability_manager.config.ConfigTeamWork;
 import com.availability_manager.exception.MaxTeamsReachedException;
 import com.availability_manager.model.DTO.MemberDTO;
 import com.availability_manager.model.DTO.TeamWorkDTO;
+import com.availability_manager.model.Employee;
 import com.availability_manager.model.TeamWork;
 import com.availability_manager.repository.TeamWorkRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -72,6 +73,17 @@ public class TeamWorkServiceImpl implements TeamWorkService {
     @Override
     public void deleteTeamWork(Long id) {
         teamWorkRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteMemberTeamwork(String anumber) {
+        List<TeamWork> teamWorkList = teamWorkRepository.membersInTeamWork(anumber);
+
+        teamWorkList.forEach(teamWork -> {
+            Set<Employee> setEmployee = teamWork.getEmployees();
+            setEmployee.removeIf(employee -> employee.getAnumber().equals(anumber));
+            teamWorkRepository.save(teamWork);
+        });
     }
 
     //FUNCIONES
