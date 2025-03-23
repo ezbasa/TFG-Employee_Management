@@ -2,6 +2,7 @@ package com.availability_manager.service;
 
 import com.availability_manager.config.ConfigTeamWork;
 import com.availability_manager.exception.MaxTeamsReachedException;
+import com.availability_manager.exception.NoMinimumMembersException;
 import com.availability_manager.model.DTO.MemberDTO;
 import com.availability_manager.model.DTO.TeamWorkDTO;
 import com.availability_manager.model.Employee;
@@ -48,6 +49,10 @@ public class TeamWorkServiceImpl implements TeamWorkService {
     @Override
     public TeamWorkDTO saveTeamWork(TeamWorkDTO teamWorkDTO) {
 
+        if(teamWorkDTO.getMembersDTOS().size() < 2){
+            throw new NoMinimumMembersException("The minimum members cannot be less than 2");
+        }
+
         CheckMember(teamWorkDTO.getMembersDTOS());
 
         TeamWork teamWork = teamWorkDtoMapToTeamWork(teamWorkDTO);
@@ -61,6 +66,10 @@ public class TeamWorkServiceImpl implements TeamWorkService {
 
         TeamWork t = teamWorkRepository.findById(teamWorkDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("TeamWork not found"));
+
+        if(teamWorkDTO.getMembersDTOS().size() < 2){
+            throw new NoMinimumMembersException("The minimum members cannot be less than 2");
+        }
 
         CheckUpdate(t,teamWorkDTO);
 
@@ -156,6 +165,12 @@ public class TeamWorkServiceImpl implements TeamWorkService {
                 throw new MaxTeamsReachedException("The employee cannot be in more teams");
             }
         });
+    }
+
+    private void minimumMembers(TeamWorkDTO teamWorkDTO){
+
+
+
     }
 }
 

@@ -1,6 +1,7 @@
 package com.availability_manager.controller;
 
 import com.availability_manager.exception.MaxTeamsReachedException;
+import com.availability_manager.exception.NoMinimumMembersException;
 import com.availability_manager.model.DTO.MemberDTO;
 import com.availability_manager.model.DTO.TeamWorkDTO;
 import com.availability_manager.service.TeamWorkService;
@@ -52,7 +53,12 @@ public class TeamWorkController {
     }
 
     @ExceptionHandler(MaxTeamsReachedException.class)
-    public ResponseEntity<String> handleException(Exception ex) {
+    public ResponseEntity<String> handleException(MaxTeamsReachedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoMinimumMembersException.class)
+    public ResponseEntity<String> handleException(NoMinimumMembersException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

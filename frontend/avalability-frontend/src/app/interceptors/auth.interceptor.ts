@@ -2,8 +2,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
-  console.log("interceptor");
-
   // Obtén el token del localStorage
   const authToken = localStorage.getItem('token');
 
@@ -14,8 +12,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${authToken}`
       }
     });
-
-    console.log("tenemos token" + authToken);
 
     return next(clonedRequest);
   }

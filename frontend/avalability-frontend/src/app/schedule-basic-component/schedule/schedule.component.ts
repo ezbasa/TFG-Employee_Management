@@ -27,7 +27,7 @@ import {
   DropDownListModule
 } from '@syncfusion/ej2-angular-dropdowns';
 import {DialogAllModule} from '@syncfusion/ej2-angular-popups';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { MatButtonModule } from '@angular/material/button';
 //import {MatIcon} from "@angular/material/icon";
@@ -194,7 +194,7 @@ export class ScheduleEmployeeComponent implements OnInit {
               //console.log("dias", dia)
               if(dia > miliSecondInOneDay){
                 //mandar toast
-                this.toastService.showToast(6)
+                this.toastService.showToast('Must be older than 24 h', 'error');
                 this.newRangeDate()
               }else{
                 this.addItem(event)
@@ -213,7 +213,7 @@ export class ScheduleEmployeeComponent implements OnInit {
           //console.log("dias", dia)
           if(dia > miliSecondInOneDay){
             //mandar toast
-            this.toastService.showToast(6)
+            this.toastService.showToast('Must be older than 24 h', 'error');
             this.newRangeDate()
           }else{
             this.updateItem(event)
@@ -248,11 +248,11 @@ export class ScheduleEmployeeComponent implements OnInit {
     this.http.post(this.itemURL, i)
       .subscribe(
         response =>{
-          this.toastService.showToast(0)
+          this.toastService.showToast('Added event', 'success');
           this.newRangeDate();
         },
         error => {
-          this.toastService.showToast(error.status)
+          this.toastService.showToast(error.error, 'error');
           this.newRangeDate();
         }
       )
@@ -269,11 +269,11 @@ export class ScheduleEmployeeComponent implements OnInit {
     this.http.put(this.itemURL, i)
       .subscribe(
         response =>{
-          this.toastService.showToast(0)
+          this.toastService.showToast('Updated event', 'success');
           this.newRangeDate();
         },
         error => {
-          this.toastService.showToast(error.status)
+          this.toastService.showToast(error.error, 'error');
           this.newRangeDate()
         }
       )
@@ -287,17 +287,25 @@ export class ScheduleEmployeeComponent implements OnInit {
       .set('anumber', this.Anumber as string);
 
 
-    this.http.delete(this.itemURL, {params})
-      .subscribe(
-        response => {
-          this.toastService.showToast(1)
+    this.http.delete(this.itemURL, {params}) .subscribe({
+        next: (response) =>{
+          this.toastService.showToast('eliminated event', 'success');
+          this.newRangeDate();
+        },
+        error: (error: HttpErrorResponse) =>{
+          this.toastService.showToast(error.error, 'error');
+          this.newRangeDate()
+        }}
+    );
+        /*response => {
+          this.toastService.showToast('eliminated event', 'success');
           this.newRangeDate();
         },
         error => {
-          this.toastService.showToast(error.status)
+          this.toastService.showToast(error.error, 'error');
           this.newRangeDate()
         }
-      )
+      )*/
   }
 
   private createItem(data){
@@ -361,7 +369,7 @@ export class ScheduleEmployeeComponent implements OnInit {
           this.keepFilter()
         },
         error => {
-          this.toastService.showToast(error.status)
+          //this.toastService.showToast(error.status)
         }
       );
   }
@@ -454,7 +462,7 @@ export class ScheduleEmployeeComponent implements OnInit {
         { text: "Support", value: "Support" }
       ],
       fields: { text: 'text', value: 'value' },
-      placeholder: 'Select Team',
+      placeholder: 'Select Expert',
       change: (args: ChangeEventArgs) => {
         const selectedTeam = args.value;
 

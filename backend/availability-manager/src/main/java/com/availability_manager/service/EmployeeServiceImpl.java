@@ -61,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeDTO
      * @return EmployeeDTO
      */
+    //añadir los días de festivo al nuevo empleado---------------------------------------------------------------------
     @Transactional
     @Override
     public EmployeeDTO addEmployee(@NotNull EmployeeDTO employeeDTO) {
@@ -69,10 +70,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityExistsException("An employee with this number already exists");
         }
 
-        //añadir los días de festivo al nuevo empleado---------------------------------------------------------------------
+        Employee employee = toEntity(employeeDTO);
 
-        Employee employee = new Employee();
-        BeanUtils.copyProperties(employeeDTO, employee);
+        //Employee employee = new Employee();
+        //BeanUtils.copyProperties(employeeDTO, employee);
 
         repository.save(employee);
         return employeeDTO;
@@ -113,6 +114,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(@NotBlank String anumber) {
         repository.deleteById(anumber);
+    }
+
+
+    //MAPPER
+    private Employee toEntity(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        return employee;
     }
 
 }

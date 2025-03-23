@@ -1,5 +1,6 @@
 package com.availability_manager.security.filters;
 
+import com.availability_manager.model.enumerate.ItemType;
 import com.availability_manager.security.JwtProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -30,7 +31,7 @@ public class OwnershipValidationFilter extends OncePerRequestFilter {  //HACER P
         }
 
         // Lee el token desde los headers
-        String token = extractToken(request); // Implementa esta función según tu lógica
+        String token = extractToken(request);
         if(token == null || token.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Token no proporcionado o invalido");
@@ -66,7 +67,7 @@ public class OwnershipValidationFilter extends OncePerRequestFilter {  //HACER P
 
         if (!Anumber.equals(tokenAnumber)) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("No tienes permiso para modificar este recurso");
+            response.getWriter().write("You are not allowed to modify");
             return false;
         }
         return true;
@@ -77,18 +78,19 @@ public class OwnershipValidationFilter extends OncePerRequestFilter {  //HACER P
         String requestBody = new String(request.getInputStream().readAllBytes());
         if (requestBody.isEmpty() || requestBody.isBlank()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("El cuerpo de la solicitud no puede estar vacío");
+            response.getWriter().write("The application body is empty");
             return false;
         }
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> bodyMap = objectMapper.readValue(requestBody, Map.class);
 
-        // Valida que el anumber del body coincida con el del token
-        String requestAnumber = (String) bodyMap.get("employeeAnumber");
-        if (requestAnumber == null || !requestAnumber.equals(tokenAnumber)) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("No tienes permiso para modificar este recurso");
-            return false;
+        if(!bodyMap.get("itemType").equals(ItemType.BANKDAY.toString())){ // si es bankday no valida, se aplica
+            String requestAnumber = (String) bodyMap.get("employeeAnumber");
+            if (requestAnumber == null || !requestAnumber.equals(tokenAnumber)) { // Valida que el anumber del body coincida con el del token
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("You are not allowed to modify");
+                return false;
+            }
         }
         return true;
     }

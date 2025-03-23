@@ -16,7 +16,7 @@ export class ToastScheduleComponent {
   @ViewChild('toastComponent') public toastComponent: ToastComponent;
 
   public position = { X: 'Right', Y: 'Bottom' };
-  public toasts = [
+  /*public toasts = [
     { title: 'Success !', content: 'Item has been sent successfully.', cssClass: 'e-toast-success'},
     { title: 'Success !', content: 'Item has been delete successfully.', cssClass: 'e-toast-success'},
     { title: 'Error !', content: 'Conflict with existing Item.', cssClass: 'e-toast-danger' },
@@ -35,5 +35,14 @@ export class ToastScheduleComponent {
 
   showToast(type: number) {
     this.toastComponent.show(this.toasts[type]);
+  }*/
+  constructor(private toastService: ToastService) {
+    this.toastService.messages$.subscribe(message => {
+      this.showToast(message);
+    });
+  }
+
+  showToast(message: { title: string, content: string, cssClass: string }) {
+    this.toastComponent.show(message);
   }
 }

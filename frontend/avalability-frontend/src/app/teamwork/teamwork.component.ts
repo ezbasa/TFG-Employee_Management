@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import { TeamworkDialogComponent } from '../teamwork-dialog/teamwork-dialog.component';
 import {MatIcon} from "@angular/material/icon";
+import {ToastService} from "../schedule-basic-component/toast/toast.service";
 
 @Component({
   selector: 'app-teamwork',
@@ -18,7 +19,6 @@ import {MatIcon} from "@angular/material/icon";
 })
 export class TeamworkComponent implements OnInit{
 
-
   members: Member[] = [];
   teams: Teamwork[] = [];
 
@@ -27,7 +27,7 @@ export class TeamworkComponent implements OnInit{
 
   public showButton: boolean;
 
-  constructor(private http: HttpClient, private dialog: MatDialog, private cdr: ChangeDetectorRef) {
+  constructor(private http: HttpClient, private dialog: MatDialog, private cdr: ChangeDetectorRef, private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -41,9 +41,11 @@ export class TeamworkComponent implements OnInit{
     this.http.get<Member[]>(this.membersURL).subscribe({
       next: (response) => {
         this.members = response;
-        //console.log("members",this.members)
       },
-      error: () => console.log('Error al recoger empleados')
+      error: () => {
+        console.log('Error al recoger empleados');
+        this.toastService.showToast('Employees could not be loaded', 'error');
+      }
     });
   }
 
@@ -53,7 +55,10 @@ export class TeamworkComponent implements OnInit{
         next: (response) => {
           this.teams = response;
         },
-        error: () => console.log('Error al recoger grupos')
+        error: () => {
+          console.log('Error al recoger grupos')
+          this.toastService.showToast('Teamworks could not be loaded', 'error');
+        }
       });
 
 
@@ -108,10 +113,12 @@ export class TeamworkComponent implements OnInit{
       .subscribe({
         next: (response: Teamwork) => {
           this.teams.push(response);
+          this.toastService.showToast('Added teamwork', "success");
           console.log('equipo añadido', response)
         },
-        error: () => {
-          console.log('Error al añadir')
+        error: (error: HttpErrorResponse) => {
+          console.log('Error al añadir: ', error.error)
+          this.toastService.showToast(error.error, "error");
         }
       })
   }
@@ -119,16 +126,17 @@ export class TeamworkComponent implements OnInit{
   private upadteTeamwork(teamData: Teamwork){
     this.http.put(this.teamworkURL, teamData)
       .subscribe({
-        next:(response :Teamwork)=>{//NO FUNCIONA-------------------------------------------------------------
+        next:(response :Teamwork)=>{
           const index = this.teams.findIndex(t => t.id === response.id);
           if (index !== -1) {
             this.teams = [...this.teams.slice(0, index), response, ...this.teams.slice(index + 1)];
           }
-          //console.log('Equipo actualizado', response);
           this.cdr.detectChanges();
+          this.toastService.showToast('Update teamwork', "success");
         },
-        error:() =>{
-          console.log('Error al actualizar')
+        error:(error: HttpErrorResponse) =>{
+          console.log('Error al actualizar: ', error.error)
+          this.toastService.showToast(error.error, "error");
         }
       })
   }
@@ -140,10 +148,12 @@ export class TeamworkComponent implements OnInit{
     this.http.delete(this.teamworkURL, {params})
       .subscribe({
         next:(response)=>{
-          console.log('borrado BIEN')
+          //console.log('borrado BIEN')
+          this.toastService.showToast('Deleted teamwork', "success");
         },
-        error:() =>{
+        error:(error: HttpErrorResponse) =>{
           console.log('error al borrar')
+          this.toastService.showToast(error.error, "error");
         }
       })
   }

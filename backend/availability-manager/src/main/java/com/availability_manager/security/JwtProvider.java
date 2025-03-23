@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.util.Date;
@@ -13,6 +14,9 @@ import java.security.Key;
 @Component
 public class JwtProvider {
 
+    @Value("${jwt.minutes-expire-token}")
+    private long minutesExpire;
+
     private final Key KEY = Keys.hmacShaKeyFor("yourSuperSecretKeyHereMustBeLongEnoughForHS256".getBytes());
 
     public String generateToken(UserDetails userDetails) {
@@ -20,7 +24,7 @@ public class JwtProvider {
                 .setSubject(userDetails.getUsername())
                 .claim("role", userDetails.getAuthorities().iterator().next().getAuthority().replace("ROLE_", ""))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * minutesExpire)) //expiración en minutos
                 .signWith(KEY, SignatureAlgorithm.HS256)
                 .compact();
     }

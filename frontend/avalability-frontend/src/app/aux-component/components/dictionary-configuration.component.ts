@@ -10,6 +10,7 @@ import { DictionaryConfigurationDeleteDialogComponent } from '../dialog/delete-d
 import { Observable, forkJoin } from 'rxjs';
 import { DictionaryDTO } from '../models/dictionary-dto.model';
 import {DictionaryEntry} from "../models/dictionary-entry.model";
+import {ToastService} from "../../schedule-basic-component/toast/toast.service";
 
 @Component({
   selector: 'app-dictionary-configuration',
@@ -41,7 +42,8 @@ export class DictionaryConfigurationComponent implements OnInit {
     //protected alert: AlertService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    public cd: ChangeDetectorRef
+    public cd: ChangeDetectorRef,
+    private toastService: ToastService
   ) {
     this.showCreate = false;
     this.showEdit = false;
@@ -113,6 +115,7 @@ export class DictionaryConfigurationComponent implements OnInit {
         );*/
       },
       error => {
+        this.toastService.showToast(error.error, 'error');
         //console.error(error);
         /*this.alert.error(
           new AlertMessage({
@@ -149,7 +152,7 @@ export class DictionaryConfigurationComponent implements OnInit {
     const isValid = this.verifyData(dictionaryDTO);
     if (isValid) {
       this.dictionaryConfigurationService.createDictionaryEntry(dictionaryDTO).subscribe(
-        result => {
+        response => {
           this.getDictionaryData();
           /*this.alert.success(
             new AlertMessage({
@@ -159,6 +162,7 @@ export class DictionaryConfigurationComponent implements OnInit {
         },
         error => {
           console.error(error);
+          this.toastService.showToast(error.error, 'error');
           /*this.alert.error(
             new AlertMessage({
               text: error.error.name
@@ -168,6 +172,7 @@ export class DictionaryConfigurationComponent implements OnInit {
       );
     } else {
       console.log('NO ES VALIDO')
+      this.toastService.showToast('Not valid - Check information', 'error');
       /*this.alert.error(
         new AlertMessage({
           text: 'Los campos requeridos no son válidos'
@@ -194,6 +199,7 @@ export class DictionaryConfigurationComponent implements OnInit {
       },
       error => {
         console.error(error);
+        this.toastService.showToast(error.error, error);
         /*this.alert.error(
           new AlertMessage({
             text: error.error.name

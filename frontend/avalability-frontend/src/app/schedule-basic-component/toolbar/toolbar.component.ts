@@ -49,17 +49,11 @@ export class ToolbarComponent implements OnInit {
   logoutURL = "/auth/logout";
   sendlogout(){
 
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
+
+    //envío petición para que añada el token en la blacklist
     this.http.post(this.logoutURL, {}, { responseType: 'text' })
-      .subscribe(
-        response =>{
-          localStorage.removeItem('token');
-          this.router.navigate(['login']);
-        },
-        error => {
-          console.log("ERROR" , error);
-          this.toastService.showToast(error.status) //corregir
-        }
-      )
   }
 
   navigateToTeamwork() {
