@@ -173,8 +173,8 @@ export class ScheduleEmployeeComponent implements OnInit {
   //CONTROL DE PETICIONES Y TRANSICIONES ENTRE VISTAS --------------------------------------------------------
 
    //Enviar peticion http
-  calendarURL = "/employee/range" //Recoge todos los empleados, item entre unas fechas
-  itemURL = "/item-calendar" //Acciones crud de los items
+  calendarURL = "http://localhost:8080/employee/range" //Recoge todos los empleados, item entre unas fechas
+  itemURL = "http://localhost:8080/item-calendar" //Acciones crud de los items
 
   //gestion de evnetos
   public captionActionComplete(event){

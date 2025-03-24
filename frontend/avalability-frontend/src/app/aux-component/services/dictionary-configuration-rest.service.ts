@@ -12,8 +12,8 @@ import {DictionaryEntry} from "../models/dictionary-entry.model";
 export class DictionaryConfigurationRestService {
   constructor(protected http: HttpClient) {}
 
-  employeeURL: string = '/employee'
-  employeeGetURL: string = '/employee/modification'
+  employeeURL: string = 'http://localhost:8080/employee'
+  employeeGetURL: string = 'http://localhost:8080/employee/modification'
 
   // Obtenemos todos los diccionarios.
   getDictionaries(): Observable<any> {

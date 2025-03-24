@@ -22,8 +22,8 @@ export class TeamworkComponent implements OnInit{
   members: Member[] = [];
   teams: Teamwork[] = [];
 
-  private membersURL = '/teamwork/members'; //recoger todos los miembros
-  private teamworkURL = '/teamwork'
+  private membersURL = 'http://localhost:8080/teamwork/members'; //recoger todos los miembros
+  private teamworkURL = 'http://localhost:8080/teamwork'
 
   public showButton: boolean;
 
