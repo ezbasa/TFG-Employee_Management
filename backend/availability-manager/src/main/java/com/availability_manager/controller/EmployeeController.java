@@ -144,7 +144,7 @@ public class EmployeeController {
     }
 
     @Operation(
-            summary = "Obtener empleados por rango de fechas",
+            summary = "Obtener empleados por rango de fechas", //empleados e items
             description = "Este endpoint devuelve una lista de empleados dentro de un rango de fechas especificado",
             parameters = {
                     @Parameter(name = "startDate", description = "Fecha de inicio del rango", required = true, schema = @Schema(type = "string", format = "date-time")),
@@ -178,8 +178,8 @@ public class EmployeeController {
             }
     )
     @PostMapping()
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid @NotNull EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(employeeService.addEmployee(employeeDTO));
+    public ResponseEntity<EmployeeWithRoleDTO> createEmployee(@RequestBody @Valid @NotNull EmployeeWithRoleDTO employeeDTO) {
+        return ResponseEntity.ok(employeeManagment.addEmployeeWithRole(employeeDTO));
     }
 
     @Operation(

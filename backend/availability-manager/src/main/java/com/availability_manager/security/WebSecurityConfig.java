@@ -6,6 +6,7 @@ import com.availability_manager.security.request_wrapper.CachedBodyFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,14 +30,17 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/register").hasAuthority("PROJECT_MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/teamwork", "/employee").hasAuthority("PROJECT_MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/teamwork", "/employee").hasAuthority("PROJECT_MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/teamwork", "/employee").hasAuthority("PROJECT_MANAGER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(ownershipValidationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CachedBodyFilter(), OwnershipValidationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, CachedBodyFilter.class)
 
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }

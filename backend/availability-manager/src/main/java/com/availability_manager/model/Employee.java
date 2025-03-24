@@ -1,11 +1,7 @@
 package com.availability_manager.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -38,5 +34,6 @@ public class Employee {
 
     @OneToOne(mappedBy = "employee")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Login login;
 }

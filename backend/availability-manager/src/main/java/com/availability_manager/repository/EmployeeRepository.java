@@ -11,13 +11,6 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
     @Query("SELECT e FROM Employee e " +
-            "LEFT JOIN FETCH e.calendarItems ci " +
-            "WHERE ci.itemActive = true OR ci is null " +
-            "ORDER BY e.name"
-    )
-    List<Employee> employeesAndItemActive();
-
-    @Query("SELECT e FROM Employee e " +
             "ORDER BY e.name")
     List<Employee> getAllEmployees();
 
@@ -25,3 +18,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
             "WHERE e.location = ?1")
     List<Employee> getEmployeeByLocation(String location);
 }
+
+
+/*
+    @Query("SELECT e FROM Employee e " +
+            "LEFT JOIN FETCH e.calendarItems ci " +
+            "WHERE ci.itemActive = true OR ci is null " +
+            "ORDER BY e.name"
+    )
+    List<Employee> employeesAndItemActive();
+ */

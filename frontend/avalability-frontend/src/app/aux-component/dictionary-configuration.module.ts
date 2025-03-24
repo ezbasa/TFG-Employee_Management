@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//import { SharedModule } from 'src/app/shared/shared.module';
-//import { DynamicFormsModule } from '@dekra/dynamic-forms-lib';
-//import { CustomComponentsModule } from '@dekra/custom-components-lib';
 import { DictionaryConfigurationRoutingModule } from './dictionary-configuration-routing.module';
 import { DictionaryConfigurationComponent } from './components/dictionary-configuration.component';
 import { DictionaryConfigurationDeleteDialogComponent } from './dialog/delete-dialog/dictionary-configuration-delete-dialog.component';
