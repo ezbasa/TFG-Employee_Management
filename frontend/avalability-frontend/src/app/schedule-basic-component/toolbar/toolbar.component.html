@@ -1,22 +1,23 @@
 <mat-toolbar color="primary" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-  <!-- <img src="../../../assets/navbar-logo-1.png" alt="Logo" class="logo-img"> -->
 
   <span class="example-spacer"></span>
 
+  <button mat-button class="button" (click)="navigateToCalendar()">
+    <mat-icon>calendar_today</mat-icon>
+    Scheduler
+  </button>
+
+  <button mat-button class="button" (click)="navigateToTeamwork()">
+    <mat-icon>groups</mat-icon>
+    teamwork
+  </button>
+
   <div *ngIf="showButton">
-    <div *ngIf="showButtonEmployee else calendarTemplate">
-      <button mat-button class="button" (click)="navigateToEmployees()">
-        <mat-icon>add</mat-icon>
-        Employee
-      </button>
-    </div>
-  </div>
-  <ng-template #calendarTemplate>
-    <button mat-button class="button" (click)="navigateToCalendar()">
-      <mat-icon>calendar_today</mat-icon>
-      Scheduler
+    <button mat-button class="button" (click)="navigateToEmployees()">
+      <mat-icon>add</mat-icon>
+      Employee
     </button>
-  </ng-template>
+  </div>
 
   <button mat-button class="button" (click)="sendlogout()">
     <mat-icon>logout</mat-icon>

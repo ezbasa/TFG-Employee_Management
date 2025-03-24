@@ -41,14 +41,6 @@ public class CalendarController {
     @Autowired
     private CalendarServiceManagement management;
 
-    /*
-    @GetMapping("/test")
-    public String test() {
-        return "Controller is working!";
-    }
-     */
-
-
     @Operation(
             summary = "Obtener ítems del calendario por rango de fechas",
             description = "Este endpoint devuelve una lista de ítems del calendario dentro de un rango de fechas especificado",

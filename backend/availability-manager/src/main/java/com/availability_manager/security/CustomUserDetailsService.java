@@ -25,13 +25,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(login.getPassword())
                 .authorities(new SimpleGrantedAuthority(String.valueOf(login.getRole())))// Añadimos el rol aquí
                 .build();
-
-
-        //esto funciona sin roles
-        /*return new org.springframework.security.core.userdetails.User(
-                login.getEmployeeAnumber(),
-                login.getPassword(),
-                new ArrayList<>()//login.getRole() // Aquí irían los roles si los implementas
-        );*/
     }
 }
