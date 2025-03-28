@@ -17,6 +17,12 @@ public class AuthController {
 
     private  final AuthService authService;
 
+    @GetMapping("/login")
+    public ResponseEntity<String> healthCheck() {
+        // Responde de forma simple para health check
+        return ResponseEntity.ok("OK");
+    }
+
     //para iniciar personal en la aplicación
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Login login) {
