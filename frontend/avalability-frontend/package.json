@@ -7,7 +7,6 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-
     "postinstall": "npm install @rollup/rollup-linux-x64-gnu --save-optional"
   },
   "private": true,
@@ -38,10 +37,8 @@
     "material-icons": "^1.13.12",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
-
-    "@rollup/rollup-linux-x64-gnu": "latest",
-    "rollup": "^4.0.0"
+    "zone.js": "~0.14.3",
+    "rollup": "^4.0.0",
     "serve": "^14.2.0"
   },
   "devDependencies": {
@@ -57,15 +54,11 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.2"
   },
-
-  
-    "engines": {
+  "engines": {
     "node": ">=20.17.0",
     "npm": ">=10.0.0"
   },
-  
   "optionalDependencies": {
-  "@rollup/rollup-linux-x64-gnu": "^4.38.0"
+    "@rollup/rollup-linux-x64-gnu": "^4.38.0"
   }
-
 }
