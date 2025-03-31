@@ -10,8 +10,8 @@ COPY package*.json ./
 # Copia el resto del código fuente
 COPY . .
 
-# Instala todas las dependencias (incluyendo las opcionales, gracias al postinstall)
-RUN npm install
+# Instala las dependencias; forzamos la instalación de @rollup/rollup-linux-x64-gnu
+RUN npm install && npm install @rollup/rollup-linux-x64-gnu
 
 # Ejecuta el build de la aplicación (asegúrate de que en angular.json el outputPath esté configurado correctamente,
 # por ejemplo "dist/avalability-frontend")
