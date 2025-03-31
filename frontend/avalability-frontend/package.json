@@ -38,7 +38,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
 
-
+    "@rollup/rollup-linux-x64-gnu": "latest",
+    "rollup": "^4.0.0"
     "serve": "^14.2.0"
   },
   "devDependencies": {
