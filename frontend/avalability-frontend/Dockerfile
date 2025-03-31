@@ -1,30 +1,30 @@
-# Etapa 1: Construcción de la aplicación Angular
+# Etapa 1: Construcción de la aplicación Angular con Yarn
 FROM node:20-alpine AS build
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos de dependencias primero (para aprovechar la caché de Docker)
-COPY package*.json ./
+# Copia únicamente los archivos de dependencias para aprovechar la caché
+COPY package.json yarn.lock ./
+
+# Instala las dependencias en modo producción (usando Yarn)
+RUN yarn install --production --frozen-lockfile
 
 # Copia el resto del código fuente
 COPY . .
 
-# Instala las dependencias; forzamos la instalación de @rollup/rollup-linux-x64-gnu
-RUN npm install && npm install @rollup/rollup-linux-x64-gnu
-
-# Ejecuta el build de la aplicación (asegúrate de que en angular.json el outputPath esté configurado correctamente,
-# por ejemplo "dist/avalability-frontend")
-RUN npm run build
+# Ejecuta el build de la aplicación
+# Asegúrate de que en angular.json el outputPath esté configurado correctamente, por ejemplo "dist/avalability-frontend"
+RUN yarn run build
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 
-# Copia los archivos construidos desde la etapa anterior al directorio que Nginx utiliza para servir contenido
+# Copia los archivos estáticos generados en la etapa de build
 COPY --from=build /app/dist/avalability-frontend /usr/share/nginx/html
 
-# Exponer el puerto 80 (Nginx escucha en este puerto)
+# Expone el puerto 80 para Nginx
 EXPOSE 80
 
-# Comando por defecto para iniciar Nginx en modo foreground
+# Comando para iniciar Nginx en modo foreground
 CMD ["nginx", "-g", "daemon off;"]
