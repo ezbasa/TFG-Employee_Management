@@ -4,6 +4,9 @@ FROM node:20-alpine AS build
 # Establece el directorio de trabajo
 WORKDIR /app
 
+# Elimina cualquier rastro de dependencias previas (aunque en una imagen limpia no debería haber)
+RUN rm -rf node_modules yarn.lock package-lock.json
+
 # Copia únicamente los archivos de dependencias para aprovechar la caché
 COPY package.json yarn.lock ./
 
