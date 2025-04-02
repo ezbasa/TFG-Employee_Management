@@ -3,13 +3,13 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copia solo los archivos necesarios para instalar dependencias
+# Copia solo archivos de dependencias
 COPY package.json package-lock.json ./
 
-# Instala dependencias
-RUN npm ci
+# Instala dependencias (incluyendo devDependencies)
+RUN npm ci --include=dev
 
-# Copia el resto de los archivos
+# Copia todo el código fuente
 COPY . .
 
 # Construye la aplicación
@@ -18,12 +18,11 @@ RUN npm run build --prod
 # Etapa 2: Servir con Nginx
 FROM nginx:alpine
 
-# Copia la configuración de nginx (opcional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 # Copia los archivos construidos
 COPY --from=build /app/dist/avalability-frontend /usr/share/nginx/html
 
+# Expone el puerto 80
 EXPOSE 80
 
+# Inicia Nginx
 CMD ["nginx", "-g", "daemon off;"]
