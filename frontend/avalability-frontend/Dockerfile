@@ -7,7 +7,7 @@ ENV PATH=/usr/local/bin:$PATH
 WORKDIR /app
 
 # Copia los archivos de dependencias
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 # Instala todas las dependencias (sin omitir dev para asegurar que @angular/cli se instale)
 RUN npm install
