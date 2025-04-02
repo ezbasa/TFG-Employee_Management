@@ -7,7 +7,7 @@ RUN npm ci --include=dev
 COPY . .
 RUN npm run build --prod
 
-FROM nginx:stable  # <--- Versión más estable
+FROM nginx:stable
 COPY --from=build /app/dist/avalability-frontend /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
