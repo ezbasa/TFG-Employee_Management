@@ -14,11 +14,13 @@ RUN npm install -g npm@latest
 RUN rm -rf node_modules
 
 # Instala todas las dependencias (las opcionales se instalarán según lo definido en package.json)
-RUN npm install --omit=dev
+RUN npm install
 
 # Copia el resto del código fuente
 COPY . .
 
+# Instala Angular CLI globalmente
+#RUN npm install -g @angular/cli ----sino ponermos esto
 # Ejecuta el build de la aplicación (asegúrate de que angular.json tenga el outputPath correcto, ej. "dist/avalability-frontend")
 RUN npm run build
 
