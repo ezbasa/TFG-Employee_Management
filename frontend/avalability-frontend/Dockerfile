@@ -20,7 +20,7 @@ RUN npm install
 COPY . .
 
 # Instala Angular CLI globalmente
-#RUN npm install -g @angular/cli ----sino ponermos esto
+RUN npm install -g @angular/cli
 # Ejecuta el build de la aplicación (asegúrate de que angular.json tenga el outputPath correcto, ej. "dist/avalability-frontend")
 RUN npm run build
 
