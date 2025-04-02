@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación Angular
-FROM node:18-alpine
+FROM node:18-alpine AS build
 
 # Establece el directorio de trabajo
 WORKDIR /app
