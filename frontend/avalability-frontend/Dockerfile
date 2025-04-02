@@ -1,5 +1,5 @@
 # Usa imágenes no Alpine para evitar problemas de compatibilidad
-FROM node:18 AS build  # <--- Cambio clave aquí
+FROM node:18 AS build
 
 WORKDIR /app
 COPY package*.json ./
