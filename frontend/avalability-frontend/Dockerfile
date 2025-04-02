@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación Angular
-FROM node:20 AS build
+FROM node:20
 
 # Establece el directorio de trabajo
 WORKDIR /app
