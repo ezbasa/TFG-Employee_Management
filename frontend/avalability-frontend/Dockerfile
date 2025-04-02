@@ -4,7 +4,7 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 # Copia los archivos de dependencias
-COPY package.json 
+COPY package.json ./
 #package-lock.json* ./
 
 # Actualiza npm a la versión más reciente para evitar el bug
