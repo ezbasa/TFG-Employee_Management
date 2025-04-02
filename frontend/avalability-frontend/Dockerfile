@@ -4,27 +4,22 @@ FROM node:18-alpine AS build
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos de dependencias
-COPY package.json package-lock.json* ./
-
-# Instala todas las dependencias
-RUN npm install
-
-# Copia el resto del código fuente
+# Copia los archivos de dependencias y el código fuente
+COPY package*.json ./
 COPY . .
 
-# Ejecuta el build de la aplicación en modo producción
-# Se utiliza la opción de configuración "production" (ajusta según tu angular.json)
+# Instala las dependencias y construye la aplicación
+RUN npm install
 RUN npm run build
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
 
-# Copia los archivos construidos de la etapa anterior al directorio de Nginx
+# Copia los archivos construidos desde la etapa anterior
 COPY --from=build /app/dist/avalability-frontend /usr/share/nginx/html
 
-# Expone el puerto 80
+# Exponer el puerto 80
 EXPOSE 80
 
-# Inicia Nginx en modo foreground para que el contenedor no se detenga
+# Comando por defecto para ejecutar Nginx
 CMD ["nginx", "-g", "daemon off;"]
