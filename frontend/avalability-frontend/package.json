@@ -6,7 +6,9 @@
     "start": "ng serve --port $PORT",
     "build": "ng build --prod --output-path=dist",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+
+    "postinstall": "npm run build"
   },
   "private": true,
   "dependencies": {
