@@ -4,7 +4,7 @@ FROM node:20 AS build
 WORKDIR /app
 
 # Copia los archivos de dependencias
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Instala todas las dependencias (incluyendo opcionales según package.json)
 RUN npm install
