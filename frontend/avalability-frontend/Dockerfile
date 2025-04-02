@@ -15,7 +15,7 @@ COPY . .
 
 # Ejecuta el build de la aplicación en modo producción
 # Se utiliza la opción de configuración "production" (ajusta según tu angular.json)
-RUN npm run build -- --configuration production
+RUN npm run build
 
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx:alpine
