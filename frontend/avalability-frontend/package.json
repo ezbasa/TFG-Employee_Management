@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "serve dist/avalability-frontend -p $PORT",
-    "build": "ng build --prod --output-path=dist/avalability-frontend",
+    "build": "ng build --configuration=production --output-path=dist/avalability-frontend"
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
 
