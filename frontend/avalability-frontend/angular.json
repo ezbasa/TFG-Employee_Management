@@ -16,6 +16,10 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
+
+          "baseHref": "/",
+          "deployUrl": "/",
+          
           "options": {
             "outputPath": "dist/avalability-frontend",
             "index": "src/index.html",
