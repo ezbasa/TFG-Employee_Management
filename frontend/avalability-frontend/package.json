@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
 
-    "postinstall": "npm run build"
+    "postinstall": "npm install -g @angular/cli && npm run build"
   },
   "private": true,
   "dependencies": {
