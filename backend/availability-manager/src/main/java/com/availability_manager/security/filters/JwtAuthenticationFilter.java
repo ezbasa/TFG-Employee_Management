@@ -38,7 +38,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authorizationHeader = request.getHeader("Authorization");
 
-          //se extrae el token de la cabecera
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7); // Extrae el token quitando "Bearer"
 
@@ -66,6 +65,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
 
-        filterChain.doFilter(request, response); // Continúa con el siguiente filtro
+        filterChain.doFilter(request, response);
     }
 }

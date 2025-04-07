@@ -1,92 +1,6 @@
-/*
 package com.availability_manager.controller;
 
 import com.availability_manager.model.DTO.EmployeeDTO;
-import com.availability_manager.model.Employee;
-import com.availability_manager.service.EmployeeService;
-import com.availability_manager.service.EmployeeServiceManagment;
-import io.swagger.v3.oas.annotations.Operation;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.Instant;
-import java.util.List;
-
-@Controller
-@Validated
-@RequestMapping ("/employee")
-public class EmployeeController {
-
-    @Autowired
-    private EmployeeService employeeService;
-
-    @Autowired
-    EmployeeServiceManagment employeeManagment;
-
-    @Operation(
-            summary = "Obtener empleados por rango de fechas",
-            description = "Este endpoint devuelve una lista de empleados dentro de un rango de fechas especificado"
-    )
-    @GetMapping("/range")
-    public ResponseEntity<List<EmployeeDTO>> getRange(@NotNull @RequestParam Instant startDate,
-                                                   @NotNull @RequestParam Instant endDate) {
-
-        return ResponseEntity.ok(employeeManagment.getEmployeesByDatesRange(startDate, endDate));
-    }
-
-    @Operation(summary = "Obtener todos los empleados",
-            description = "Este endpoint devuelve una lista de todos los empleados")
-    @GetMapping()
-    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployeeDTO());
-    }
-
-    @Operation(summary = "Crear un nuevo empleado",
-            description = "Este endpoint permite crear un nuevo empleado")
-    @PostMapping()
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid @NotNull EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(employeeService.addEmployee(employeeDTO));
-    }
-
-    @Operation(summary = "Actualizar un empleado existente",
-            description = "Este endpoint permite actualizar los datos de un empleado existente")
-    @PutMapping()
-    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody @Valid @NotNull EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(employeeService.updateEmployee(employeeDTO));
-    }
-
-    @Operation(summary = "Eliminar un empleado",
-            description = "Este endpoint permite eliminar un empleado por su número de identificación")
-    @DeleteMapping()
-    public ResponseEntity<Void> deleteEmployee(@RequestParam @NotBlank String anumber) {
-        employeeManagment.deleteEmployee(anumber);
-        return ResponseEntity.noContent().build();
-    }
-
-    @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<String> handleException(EntityExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleException(EntityNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-}*/
-
-package com.availability_manager.controller;
-
-import com.availability_manager.model.DTO.EmployeeDTO;
-//import com.availability_manager.model.Employee;
 import com.availability_manager.model.DTO.EmployeeWithRoleDTO;
 import com.availability_manager.service.EmployeeService;
 import com.availability_manager.service.EmployeeServiceManagment;
@@ -95,7 +9,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-//import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -105,7 +18,6 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -159,7 +71,6 @@ public class EmployeeController {
     @GetMapping("/range")
     public ResponseEntity<List<EmployeeDTO>> getRange(@NotNull @RequestParam Instant startDate,
                                                       @NotNull @RequestParam Instant endDate) {
-        //System.out.println("fecha" + startDate + " y " + endDate);
         return ResponseEntity.ok(employeeManagment.getEmployeesByDatesRange(startDate, endDate));
     }
 

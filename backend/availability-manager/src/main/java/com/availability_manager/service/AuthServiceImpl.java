@@ -43,7 +43,8 @@ public class AuthServiceImpl implements AuthService/*implements UserDetailsServi
         if(existsUserLogin(anumber)) {
             throw new EntityExistsException("User already exist");
         }
-        Employee emp = authServiceManagement.getEmployee(anumber).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Employee emp = authServiceManagement.getEmployee(anumber)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Login newLogin = new Login();
         newLogin.setEmployee(emp);

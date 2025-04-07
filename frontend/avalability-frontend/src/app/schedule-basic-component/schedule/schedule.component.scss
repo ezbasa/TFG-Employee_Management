@@ -36,28 +36,6 @@ textarea.e-field.e-input {
   resize: none; /* Desactiva la opción de redimensionar el textarea */
 }
 
-//COLOREAR DE VERDE EL BOTON SAVE (tambien me modifica el delete del quickdialog)----------------------
-/*.e-btn.e-flat.e-primary,
-.e-css.e-btn.e-flat.e-primary { //boton SAVE verde
-  &, &:hover {
-    color: #1d8f20;
-  }
-}
-
-
-.e-quick-dialog-delete {
-  color: #333; !* Color de texto por defecto *!
-  background-color: transparent; !* Fondo transparente o color por defecto *!
-}
-
-.e-quick-dialog-delete:hover {
-  color: #d32f2f; !* Color rojo en hover si deseas marcar el DELETE como algo más peligroso *!
-}
-
-.e-btn.e-flat.e-primary, .e-btn.e-flat.e-primary:hover{
-  color: #d32f2f;
-}*/
-
 // quick-dialog popup----------------------------------------------
 .e-dialog.e-popup {
   width: 400px;

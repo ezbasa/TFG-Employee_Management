@@ -18,13 +18,3 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
             "WHERE e.location = ?1")
     List<Employee> getEmployeeByLocation(String location);
 }
-
-
-/*
-    @Query("SELECT e FROM Employee e " +
-            "LEFT JOIN FETCH e.calendarItems ci " +
-            "WHERE ci.itemActive = true OR ci is null " +
-            "ORDER BY e.name"
-    )
-    List<Employee> employeesAndItemActive();
- */

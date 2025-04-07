@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,5 +31,4 @@ public class TeamWork {
     @JsonIgnore
     @JoinTable(name = "TeamsWorks_Employees", joinColumns = @JoinColumn(name = "TeamWork_Id"), inverseJoinColumns = @JoinColumn(name = "Employee_Anumber"))
     private Set<Employee> employees = new HashSet<>();
-    //-------------------------------------------------no lo he añadido en EMPLOYEE----------------------------------------------------
 }

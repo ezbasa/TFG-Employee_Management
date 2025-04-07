@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,9 +22,6 @@ public class TeamWorkDTO {
 
     @NotBlank
     private String description;
-
-    //@NotNull
-    //private String teamLeader; //anumber del proyect_manager
 
     @NotNull
     private Set<MemberDTO> membersDTOS = new HashSet<>();

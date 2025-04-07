@@ -4,19 +4,19 @@
     <form [formGroup]="groupForm">
       <!-- Nombre del Grupo -->
       <mat-form-field appearance="fill">
-        <mat-label>Nombre del Grupo</mat-label>
+        <mat-label>Teamwork Name</mat-label>
         <input matInput formControlName="name" required>
       </mat-form-field>
 
       <!-- Descripción del Grupo -->
       <mat-form-field appearance="fill">
-        <mat-label>Descripción</mat-label>
+        <mat-label>Description</mat-label>
         <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
 
       <!-- Selección de Miembros -->
       <mat-form-field appearance="fill">
-        <mat-label>Seleccionar Miembros</mat-label>
+        <mat-label>Select Members</mat-label>
         <mat-select formControlName="members" multiple>
           <mat-option *ngFor="let member of members" [value]="member.anumber">
             {{ member.name }} - {{ member.expert }}
@@ -27,9 +27,9 @@
   </div>
 
   <div mat-dialog-actions align="end">
-    <button mat-button (click)="close()">Cancelar</button>
+    <button mat-button (click)="close()">Cancel</button>
     <button mat-button color="primary" (click)="save()" [disabled]="groupForm.invalid">
-      Guardar
+      Save
     </button>
   </div>
 </div>

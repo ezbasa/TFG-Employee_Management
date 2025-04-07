@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-//import { environment } from 'src/environments/environment';
-import {DictionaryEntry} from "../models/dictionary-entry.model";
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 //AHORA MISMO HE CREADO UNA VARIARABLE ENVIRONMENT PARA QUITAR EL ERROR Y SEGUIR CON EL PROCESO
 
@@ -12,8 +10,8 @@ import {DictionaryEntry} from "../models/dictionary-entry.model";
 export class DictionaryConfigurationRestService {
   constructor(protected http: HttpClient) {}
 
-  employeeURL: string = '/employee'
-  employeeGetURL: string = '/employee/modification'
+  employeeURL: string = 'http://localhost:8080/employee'
+  employeeGetURL: string = 'http://localhost:8080/employee/modification'
 
   // Obtenemos todos los diccionarios.
   getDictionaries(): Observable<any> {

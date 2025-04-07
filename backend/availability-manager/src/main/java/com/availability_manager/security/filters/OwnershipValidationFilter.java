@@ -1,7 +1,9 @@
 package com.availability_manager.security.filters;
 
+import com.availability_manager.model.CalendarItem;
 import com.availability_manager.model.enumerate.ItemType;
 import com.availability_manager.security.JwtProvider;
+import com.availability_manager.service.CalendarService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,6 +21,8 @@ import java.util.Map;
 public class OwnershipValidationFilter extends OncePerRequestFilter {  //HACER PRUEBAS CON ESTE FILTRO
 
     private final JwtProvider jwtProvider;
+
+    private final CalendarService calendarService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -64,11 +68,16 @@ public class OwnershipValidationFilter extends OncePerRequestFilter {  //HACER P
 
     private boolean checkParams(HttpServletRequest request, HttpServletResponse response, String tokenAnumber) throws IOException {
         String Anumber = request.getParameter("anumber");
+        long id = Long.parseLong(request.getParameter("id"));
 
-        if (!Anumber.equals(tokenAnumber)) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("You are not allowed to modify");
-            return false;
+        CalendarItem event = calendarService.findByIdAndItemActive(id, true);
+
+        if(!event.getItemType().equals(ItemType.BANKDAY)) {
+            if (!Anumber.equals(tokenAnumber)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("You are not allowed to modify");
+                return false;
+            }
         }
         return true;
     }
