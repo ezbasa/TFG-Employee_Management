@@ -22,11 +22,6 @@ export class ColorRender {
 
       case 'HOLIDAY':
         args.element.style.backgroundColor = '#ff0202'; // Color para Meeting
-        //subjectElement.innerHTML = `${subject}`;
-        //args.element.innerHTML = defaultHTML;
-        /*<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
-                                    <div style="width: 100%; text-align: center;">${subject}</div>
-                                  </div>`*/
         break;
 
       case 'ABSENCE':
@@ -43,24 +38,14 @@ export class ColorRender {
 
       case 'SICKLEAVE':
         args.element.style.backgroundColor = '#6029ef'; // Color para Training
-        //args.element.innerHTML = defaultHTML
-        //console.log('DEFAULTHTML:', args.element.innerHTML)
-        /*`<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
-                                    <div style="width: 100%; text-align: center;">${subject}</div>
-                                  </div>`*/
         break;
 
       case 'BANKDAY':
         args.element.style.backgroundColor = '#f3ac27'; // Color para Training
-        //args.element.innerHTML = defaultHTML
-        /*`<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
-                                    <div style="width: 100%; text-align: center;">${subject}</div>
-                                  </div>`*/
         break;
 
       case 'TELEWORK':
         args.element.style.backgroundColor = '#ff8138'; // Color para Training
-        //args.element.innerHTML = defaultHTML
         break;
 
       default:

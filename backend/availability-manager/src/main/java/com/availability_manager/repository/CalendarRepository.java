@@ -15,10 +15,8 @@ import java.util.Optional;
 @Repository
 public interface CalendarRepository extends JpaRepository<CalendarItem, Long> {
 
-    //Busca los items entre 2 fechas
     List<CalendarItem> findByStartDateBetweenAndItemActive(Instant d1, Instant d2, boolean active);
 
-    //MIRAR QUE ANOTACION PONERLE
     @Modifying
     @Transactional
     @Query("DELETE FROM CalendarItem i " +

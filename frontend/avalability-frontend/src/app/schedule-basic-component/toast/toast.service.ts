@@ -11,33 +11,6 @@ export class ToastService {
 
   constructor() { }
 
-  /*showToast(message: number) {
-  let code = message;
-    switch (message){
-      case 409:
-        code = 2
-        break;
-      case 404:
-        code = 3
-        break;
-      case 400:
-        code = 4
-        break;
-      case 403:
-        code = 5
-        break;
-      case 500:
-        code = 6
-        break;
-    }
-
-    this.messagesSubject.next(code);
-  }*/
-
-  /*
-   { title: 'Success !', content: 'Item has been delete successfully.', cssClass: 'e-toast-success'},
-    { title: 'Error !', content: 'Conflict with existing Item.', cssClass: 'e-toast-danger'
-   */
   showToast(content: string, type: 'success' | 'error' | 'warning') {
     let title: string;
     let cssClass: string;

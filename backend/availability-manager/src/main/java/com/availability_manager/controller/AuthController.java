@@ -18,6 +18,7 @@ public class AuthController {
     private  final AuthService authService;
 
     //para iniciar personal en la aplicación
+    /*
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Login login) {
         if (authService.registerLogin(login) != null) {
@@ -26,6 +27,7 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
     }
+    */
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Login login) {

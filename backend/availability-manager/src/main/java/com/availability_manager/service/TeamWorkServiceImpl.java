@@ -1,6 +1,5 @@
 package com.availability_manager.service;
 
-import com.availability_manager.config.ConfigTeamWork;
 import com.availability_manager.exception.MaxTeamsReachedException;
 import com.availability_manager.exception.NoMinimumMembersException;
 import com.availability_manager.model.DTO.MemberDTO;
@@ -9,8 +8,9 @@ import com.availability_manager.model.Employee;
 import com.availability_manager.model.TeamWork;
 import com.availability_manager.repository.TeamWorkRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,14 +19,15 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeamWorkServiceImpl implements TeamWorkService {
 
     private final TeamWorkRepository teamWorkRepository;
 
     private final TeamWorkServiceManagement teamWorkManagement;
 
-    private final ConfigTeamWork memberMaxTeam;
+    @Value("${employee.max-teams}")
+    private int memberMaxTeam;
 
     @Override
     public List<TeamWorkDTO> getAllTeamWork() {
@@ -161,24 +162,10 @@ public class TeamWorkServiceImpl implements TeamWorkService {
         members.forEach(member -> {
             //obtengo la lista de grupos donde se encuntra un usuario
             List<TeamWork> teamWorkList = teamWorkRepository.membersInTeamWork(member.getAnumber());
-            if(teamWorkList.size() >= memberMaxTeam.getMaxTeams()+1){
+            if(teamWorkList.size() >= memberMaxTeam){
                 throw new MaxTeamsReachedException("The employee cannot be in more teams");
             }
         });
     }
 
-    private void minimumMembers(TeamWorkDTO teamWorkDTO){
-
-
-
-    }
 }
-
-/*
-LOGICA A IMPLEMENTAR
-- comprobación en cuantos grupos se encuentra el empleado
-    *query que traiga todos los grupo en los que aparece un empleado
-- creación de grupo autámática ---------(no lo veo a implementar en el back)---------------
-
-- Que en todos los grupos existan todos los compoennetes ??
- */

@@ -106,22 +106,11 @@ export class DictionaryConfigurationComponent implements OnInit {
   deleteRow(anumber_row) {
     this.dictionaryConfigurationService.deleteRow(anumber_row).subscribe(
       result => {
-        //console.log('empleado borrado')
-        /*this.getDictionaryData();
-        this.alert.success(
-          new AlertMessage({
-            text: 'Diccionario eliminado correctamente'
-          })
-        );*/
+        this.toastService.showToast("Employee Delete", 'success')
+        this.getDictionaryData();
       },
       error => {
         this.toastService.showToast(error.error, 'error');
-        //console.error(error);
-        /*this.alert.error(
-          new AlertMessage({
-            text: error.error.name
-          })
-        );*/
       }
     );
   }
@@ -154,30 +143,16 @@ export class DictionaryConfigurationComponent implements OnInit {
       this.dictionaryConfigurationService.createDictionaryEntry(dictionaryDTO).subscribe(
         response => {
           this.getDictionaryData();
-          /*this.alert.success(
-            new AlertMessage({
-              text: 'Diccionario creado correctamente'
-            })
-          );*/
         },
         error => {
-          console.error(error);
+          //console.error(error);
           this.toastService.showToast(error.error, 'error');
-          /*this.alert.error(
-            new AlertMessage({
-              text: error.error.name
-            })
-          );*/
+
         }
       );
     } else {
-      console.log('NO ES VALIDO')
+      //console.log('NO ES VALIDO')
       this.toastService.showToast('Not valid - Check information', 'error');
-      /*this.alert.error(
-        new AlertMessage({
-          text: 'Los campos requeridos no son válidos'
-        })
-      );*/
 
     }
   }
@@ -191,20 +166,11 @@ export class DictionaryConfigurationComponent implements OnInit {
       result => {
         this.rowEditActivate(null);
         this.getDictionaryData();
-        /*this.alert.success(
-          new AlertMessage({
-            text: 'Diccionario modificado correctamente'
-          })
-        );*/
+
       },
       error => {
-        console.error(error);
+        //console.error(error);
         this.toastService.showToast(error.error, error);
-        /*this.alert.error(
-          new AlertMessage({
-            text: error.error.name
-          })
-        );*/
       }
     );
   }
@@ -255,15 +221,11 @@ export class DictionaryConfigurationComponent implements OnInit {
       data: {
         anumber: row.anumber,
         name: row.name,
-        /*team: row.team,
-        location: row.location,//añadido
-        holiday: row.holiday//añadido*/
       }
     });
 
 
     dialogRef.afterClosed().subscribe(result => {
-      //console.log('RESUTL', result)
       if (result) {
         this.deleteRow(row.anumber);
       }

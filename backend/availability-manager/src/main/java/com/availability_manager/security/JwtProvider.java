@@ -44,7 +44,7 @@ public class JwtProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("role", String.class); // Extraemos el rol como String
+                .get("role", String.class);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

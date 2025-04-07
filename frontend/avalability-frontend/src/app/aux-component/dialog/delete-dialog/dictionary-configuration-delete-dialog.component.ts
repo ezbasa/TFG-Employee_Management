@@ -1,7 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-//import { DialogData } from '@dekra/workflow-component-lib/lib/components/dialog/dialog.component';
-//REVISAR------------------------------------------
 
 @Component({
   selector: 'app-dictionary-configuration-delete-dialog',

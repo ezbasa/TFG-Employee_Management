@@ -11,8 +11,6 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [
     RouterOutlet,
-    /*ScheduleEmployeeComponent,
-    ToastScheduleComponent,*/
     ToolbarComponent,
     NgIf
   ],
