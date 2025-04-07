@@ -6,8 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: DictionaryConfigurationComponent
-    // canActivate: [AuthGuard],
-    // canLoad: [AuthGuard]
   }
 ];
 

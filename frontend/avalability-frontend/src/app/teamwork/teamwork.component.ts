@@ -41,6 +41,7 @@ export class TeamworkComponent implements OnInit{
     this.http.get<Member[]>(this.membersURL).subscribe({
       next: (response) => {
         this.members = response;
+        console.log("traer miembros:",response)
       },
       error: () => {
         console.log('Error al recoger empleados');
@@ -174,36 +175,3 @@ interface Teamwork {
   teamLeader: string;
   membersDTOS: Member[];
 }
-
-
-
-/*membersMapping(response: any){
-  this.members = response.map(member => ({
-      anumber: member.anumber,
-      name: member.name,
-      expert: member.expert
-    }))
-}*/
-
-
-/*teams: Team[] = [
-  {
-    id: 1,
-    name: 'Proyecto Alpha',
-    description: 'Desarrollo de aplicación web',
-    members: [
-      { anumber: 'A1001', name: 'Juan Pérez', function: 'Frontend' },
-      { anumber: 'A1002', name: 'María López', function: 'Backend' },
-      { anumber: 'A1003', name: 'Carlos Sánchez', function: 'DevOps' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Proyecto Beta',
-    description: 'Mantenimiento de API',
-    members: [
-      { anumber: 'A1004', name: 'Ana Torres', function: 'Backend' },
-      { anumber: 'A1005', name: 'David Ruiz', function: 'QA' }
-    ]
-  }
-];*/

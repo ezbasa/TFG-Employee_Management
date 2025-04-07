@@ -36,16 +36,4 @@ export class DictionaryConfigurationService {
   modifyDictionaryEntry(form) {
     return this.dictionaryConfigurationRestService.modifyDictionaryEntry(form);
   }
-
-  // Obtenemos un observable de array con todos los campos y
-  // valores de los diccionarios sin importar el cliente.
-  /*getAllDictionaries(): Observable<any> {
-    return this.dictionaryConfigurationRestService
-      .getDictionaries()
-      .pipe(
-        map(dictionaryArray =>
-          dictionaryArray.map(dictionaryEntry => new DictionaryEntry(dictionaryEntry))
-        )
-      );
-  }*/
 }

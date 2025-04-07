@@ -8,6 +8,7 @@ import { MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {ToastService} from "../schedule-basic-component/toast/toast.service";
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient, // Cliente HTTP para las peticiones
-    private router: Router // Router para redirección tras login
+    private router: Router, // Router para redirección tras login
+    private toastService: ToastService
   ) {
     // Crear el formulario
     this.loginForm = this.fb.group({
@@ -53,6 +55,7 @@ export class LoginComponent {
           }
         },
         error: (err) => {
+          this.toastService.showToast(err.error, 'error');
           console.error('Error en la autenticación:', err);
         }
       });

@@ -30,19 +30,15 @@ import {DialogAllModule} from '@syncfusion/ej2-angular-popups';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { MatButtonModule } from '@angular/material/button';
-//import {MatIcon} from "@angular/material/icon";
 import { extend, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {ClickEventArgs} from "@syncfusion/ej2-angular-buttons";
 import {DropDownButton} from '@syncfusion/ej2-angular-splitbuttons'
-import {/*JsonPipe,*/ CommonModule} from "@angular/common";
+import { CommonModule} from "@angular/common";
 import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import { FormValidator } from "@syncfusion/ej2-angular-inputs";
 import {ToastService} from "../toast/toast.service";
 import {ColorRender} from "./color-render.service";
-
-//imponto Toolbar para que se carge al llamar a este
-//import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {ToastScheduleComponent} from "../toast/toast.component";
 
 @Component({
@@ -79,6 +75,8 @@ export class ScheduleEmployeeComponent implements OnInit {
   };
   public scheduleHours: WorkHoursModel  = { highlight: true, start: '07:00', end: '17:00' };
   public originalEmployeeData: any = null; //variable para guardar a TODOS los empleados
+
+  constructor(private http: HttpClient, private toastService: ToastService, public colorService: ColorRender) {}
 
   //primera carga de datos (obtengo la fecha manualmente)
   ngOnInit(): void {
@@ -297,15 +295,6 @@ export class ScheduleEmployeeComponent implements OnInit {
           this.newRangeDate()
         }}
     );
-        /*response => {
-          this.toastService.showToast('eliminated event', 'success');
-          this.newRangeDate();
-        },
-        error => {
-          this.toastService.showToast(error.error, 'error');
-          this.newRangeDate()
-        }
-      )*/
   }
 
   private createItem(data){
@@ -353,14 +342,9 @@ export class ScheduleEmployeeComponent implements OnInit {
     this.http.get<any[]>(this.calendarURL, {params} )
       .subscribe(
         response => {
-          //console.log("respuesta", response)//el empleado llega
           this.employeeDataSource = this.employeeMapping(response); //mapeo empleados
-          //console.log("Estos son los empleados: " , this.originalEmployeeData/*.toString()*/)
           this.items = this.itemsMapping(response);//mapeo items
-            //console.log("Estos son los items:" + this.items)
           this.data = extend([], this.items, null, true) as Record<string, any>[];
-
-          //this.scheduleObj.dataBind();//fuerzo la acutalización de datos (seguimos en las mismas)
 
           // Actualizar la configuración de eventos
           this.eventSettings = {
@@ -369,7 +353,7 @@ export class ScheduleEmployeeComponent implements OnInit {
           this.keepFilter()
         },
         error => {
-          //this.toastService.showToast(error.status)
+          this.toastService.showToast(error.error, "error")
         }
       );
   }
@@ -546,8 +530,6 @@ export class ScheduleEmployeeComponent implements OnInit {
   public endDate!: Date;
   public Anumber: String; //esta variable está creada por algún inconveniente del uso del anumber en Syncfusion
 
-  constructor(private http: HttpClient, private toastService: ToastService, public colorService: ColorRender) {}
-
   //rellenar datos de empleado
   public selectedEmployee: any = null
   onPopupOpen(args: PopupOpenEventArgs): void {
@@ -571,8 +553,6 @@ export class ScheduleEmployeeComponent implements OnInit {
       let formElement: HTMLElement = <HTMLElement>args.element.querySelector('.e-schedule-form');
       let validator: FormValidator = ((formElement as EJ2Instance).ej2_instances[0] as FormValidator);
       validator.addRules('Subject', { required: true });
-      //validator.addRules('StartTime', {required: true});//REVISAR
-      //validator.addRules('EndtTime', {required: true});
 
       //guardo el ID para usarlo al enviar la peticion correspondiente
       this.Anumber = args.data['EmployeeId'];
